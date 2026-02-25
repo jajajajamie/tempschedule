@@ -15,23 +15,18 @@
     --accent3: #a8ff3e;
     --text: #e2e8f0;
     --text-dim: #64748b;
-    --gold: #ffd700;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     background: var(--bg);
     color: var(--text);
     font-family: 'Noto Sans SC', sans-serif;
-    min-width: 1400px;
+    min-width: 1600px;
     padding: 40px 30px;
   }
-
-  /* Header */
   .header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     position: relative;
   }
   .header::before {
@@ -67,14 +62,12 @@
     color: var(--accent2);
     letter-spacing: 3px;
   }
-
-  /* Legend */
   .legend {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
   .legend-item {
     display: flex;
@@ -87,27 +80,27 @@
     font-weight: 700;
     letter-spacing: 0.5px;
   }
-  .legend-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .phase-legend {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 36px;
+    font-size: 12px;
+    font-family: 'Space Mono', monospace;
   }
-
-  /* Main Grid */
-  .schedule-container {
-    overflow-x: auto;
-  }
-
+  .phase-legend span { display: flex; align-items: center; gap: 6px; }
+  .ph-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .schedule-container { overflow-x: auto; }
   table.schedule {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
   }
-
-  /* Column headers (dates) */
   th.date-header {
-    padding: 16px 12px;
+    padding: 14px 10px;
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     letter-spacing: 2px;
     text-align: center;
     border-bottom: 2px solid var(--accent1);
@@ -115,21 +108,23 @@
     top: 0;
     z-index: 10;
     background: var(--bg);
+    min-width: 168px;
   }
   th.date-header .day-num {
     display: block;
-    font-size: 42px;
+    font-size: 40px;
     line-height: 1;
     color: var(--accent1);
   }
   th.date-header .day-label {
-    font-size: 13px;
+    font-size: 11px;
     color: var(--text-dim);
     font-family: 'Space Mono', monospace;
     letter-spacing: 1px;
   }
   th.sport-col {
-    width: 160px;
+    width: 150px;
+    min-width: 150px;
     padding: 10px;
     text-align: left;
     background: var(--bg);
@@ -142,8 +137,6 @@
     letter-spacing: 2px;
     text-transform: uppercase;
   }
-
-  /* Sport row header */
   td.sport-label {
     padding: 12px 10px;
     background: var(--surface);
@@ -153,47 +146,27 @@
     border-right: 2px solid var(--border);
     border-bottom: 1px solid var(--border);
     vertical-align: top;
-    min-width: 155px;
-    max-width: 155px;
+    min-width: 150px;
+    max-width: 150px;
+    border-left: 3px solid var(--sc, #444);
   }
-  td.sport-label .sport-icon {
-    font-size: 22px;
-    display: block;
-    margin-bottom: 4px;
-  }
-  td.sport-label .sport-name-zh {
-    font-weight: 700;
-    font-size: 13px;
-    color: var(--text);
-    display: block;
-  }
-  td.sport-label .sport-name-en {
-    font-size: 10px;
-    color: var(--text-dim);
-    letter-spacing: 0.5px;
-    display: block;
-    margin-top: 2px;
-  }
-
-  /* Cell */
+  td.sport-label .sport-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+  td.sport-label .sport-name-zh { font-weight: 700; font-size: 13px; color: var(--text); display: block; }
+  td.sport-label .sport-name-en { font-size: 10px; color: var(--text-dim); letter-spacing: 0.5px; display: block; margin-top: 2px; }
   td.day-cell {
-    padding: 8px;
+    padding: 7px;
     border-right: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     vertical-align: top;
-    min-width: 165px;
+    min-width: 168px;
     max-width: 200px;
   }
-  td.day-cell.empty {
-    background: rgba(0,0,0,0.2);
-  }
-
-  /* Event pill */
+  td.day-cell.empty { background: rgba(0,0,0,0.25); }
   .event-pill {
-    padding: 6px 9px;
+    padding: 5px 8px;
     border-radius: 6px;
     margin-bottom: 5px;
-    border-left: 3px solid;
+    border-left: 3px solid var(--sc, #00e5ff);
     font-size: 11px;
     line-height: 1.4;
   }
@@ -202,83 +175,50 @@
     font-size: 10px;
     font-weight: 700;
     margin-bottom: 2px;
-    opacity: 0.9;
+    opacity: 0.85;
   }
-  .event-pill .event-name {
-    font-weight: 700;
-    font-size: 11px;
-  }
-  .event-pill .phase {
-    font-size: 10px;
-    opacity: 0.7;
-    margin-top: 1px;
-  }
+  .event-pill .event-name { font-weight: 700; font-size: 11px; }
+  .event-pill .phase { font-size: 10px; margin-top: 2px; }
+  .phase-final  { color: #ffd700; font-weight: 700; }
+  .phase-semi   { color: #fb923c; }
+  .phase-qual   { color: #a8ff3e; }
+  .phase-group  { color: #94a3b8; }
+  .phase-bronze { color: #cd7f32; }
 
-  /* Sport color themes */
-  .sport-ow   { --sc: #00e5ff; }
-  .sport-wp   { --sc: #3b82f6; }
-  .sport-bb   { --sc: #f97316; }
-  .sport-ba   { --sc: #a8ff3e; }
-  .sport-db   { --sc: #ffd700; }
-  .sport-bf   { --sc: #ef4444; }
-  .sport-bh   { --sc: #ec4899; }
-  .sport-jj   { --sc: #8b5cf6; }
-  .sport-ka   { --sc: #06b6d4; }
-  .sport-sa   { --sc: #ffffff; }
-  .sport-cl   { --sc: #84cc16; }
-  .sport-tq   { --sc: #fb923c; }
-  .sport-aq   { --sc: #22d3ee; }
-  .sport-bv   { --sc: #f43f5e; }
-  .sport-wr   { --sc: #d97706; }
+  tr.sport-ow td.sport-label { --sc: #00e5ff; }
+  tr.sport-ow .event-pill { --sc: #00e5ff; background: rgba(0,229,255,0.07); }
+  tr.sport-wp td.sport-label { --sc: #3b82f6; }
+  tr.sport-wp .event-pill { --sc: #3b82f6; background: rgba(59,130,246,0.07); }
+  tr.sport-bb td.sport-label { --sc: #f97316; }
+  tr.sport-bb .event-pill { --sc: #f97316; background: rgba(249,115,22,0.07); }
+  tr.sport-ba td.sport-label { --sc: #a8ff3e; }
+  tr.sport-ba .event-pill { --sc: #a8ff3e; background: rgba(168,255,62,0.07); }
+  tr.sport-db td.sport-label { --sc: #ffd700; }
+  tr.sport-db .event-pill { --sc: #ffd700; background: rgba(255,215,0,0.07); }
+  tr.sport-bf td.sport-label { --sc: #ef4444; }
+  tr.sport-bf .event-pill { --sc: #ef4444; background: rgba(239,68,68,0.07); }
+  tr.sport-bh td.sport-label { --sc: #ec4899; }
+  tr.sport-bh .event-pill { --sc: #ec4899; background: rgba(236,72,153,0.07); }
+  tr.sport-jj td.sport-label { --sc: #8b5cf6; }
+  tr.sport-jj .event-pill { --sc: #8b5cf6; background: rgba(139,92,246,0.07); }
+  tr.sport-ka td.sport-label { --sc: #06b6d4; }
+  tr.sport-ka .event-pill { --sc: #06b6d4; background: rgba(6,182,212,0.07); }
+  tr.sport-sa td.sport-label { --sc: #cbd5e1; }
+  tr.sport-sa .event-pill { --sc: #cbd5e1; background: rgba(203,213,225,0.06); }
+  tr.sport-cl td.sport-label { --sc: #84cc16; }
+  tr.sport-cl .event-pill { --sc: #84cc16; background: rgba(132,204,22,0.07); }
+  tr.sport-tq td.sport-label { --sc: #fb923c; }
+  tr.sport-tq .event-pill { --sc: #fb923c; background: rgba(251,146,60,0.07); }
+  tr.sport-aq td.sport-label { --sc: #22d3ee; }
+  tr.sport-aq .event-pill { --sc: #22d3ee; background: rgba(34,211,238,0.07); }
+  tr.sport-bv td.sport-label { --sc: #f43f5e; }
+  tr.sport-bv .event-pill { --sc: #f43f5e; background: rgba(244,63,94,0.07); }
+  tr.sport-wr td.sport-label { --sc: #d97706; }
+  tr.sport-wr .event-pill { --sc: #d97706; background: rgba(217,119,6,0.07); }
 
-  .event-pill {
-    background: rgba(var(--sc-rgb, 0,229,255), 0.07);
-    border-left-color: var(--sc, #00e5ff);
-    color: var(--text);
-  }
-  .sport-ow .event-pill { --sc-rgb: 0,229,255; background: rgba(0,229,255,0.08); }
-  .sport-wp .event-pill { --sc-rgb: 59,130,246; background: rgba(59,130,246,0.08); }
-  .sport-bb .event-pill { --sc-rgb: 249,115,22; background: rgba(249,115,22,0.08); }
-  .sport-ba .event-pill { --sc-rgb: 168,255,62; background: rgba(168,255,62,0.08); }
-  .sport-db .event-pill { --sc-rgb: 255,215,0; background: rgba(255,215,0,0.08); }
-  .sport-bf .event-pill { --sc-rgb: 239,68,68; background: rgba(239,68,68,0.08); }
-  .sport-bh .event-pill { --sc-rgb: 236,72,153; background: rgba(236,72,153,0.08); }
-  .sport-jj .event-pill { --sc-rgb: 139,92,246; background: rgba(139,92,246,0.08); }
-  .sport-ka .event-pill { --sc-rgb: 6,182,212; background: rgba(6,182,212,0.08); }
-  .sport-sa .event-pill { --sc-rgb: 255,255,255; background: rgba(255,255,255,0.06); }
-  .sport-cl .event-pill { --sc-rgb: 132,204,22; background: rgba(132,204,22,0.08); }
-  .sport-tq .event-pill { --sc-rgb: 251,146,60; background: rgba(251,146,60,0.08); }
-  .sport-aq .event-pill { --sc-rgb: 34,211,238; background: rgba(34,211,238,0.08); }
-  .sport-bv .event-pill { --sc-rgb: 244,63,94; background: rgba(244,63,94,0.08); }
-  .sport-wr .event-pill { --sc-rgb: 217,119,6; background: rgba(217,119,6,0.08); }
-
-  .sport-label { border-left: 3px solid var(--sc, #444); }
-  .sport-ow td.sport-label { --sc: #00e5ff; }
-  .sport-wp td.sport-label { --sc: #3b82f6; }
-
-  /* Per-sport row label color */
-  tr.sport-ow td.sport-label { border-left-color: #00e5ff; }
-  tr.sport-wp td.sport-label { border-left-color: #3b82f6; }
-  tr.sport-bb td.sport-label { border-left-color: #f97316; }
-  tr.sport-ba td.sport-label { border-left-color: #a8ff3e; }
-  tr.sport-db td.sport-label { border-left-color: #ffd700; }
-  tr.sport-bf td.sport-label { border-left-color: #ef4444; }
-  tr.sport-bh td.sport-label { border-left-color: #ec4899; }
-  tr.sport-jj td.sport-label { border-left-color: #8b5cf6; }
-  tr.sport-ka td.sport-label { border-left-color: #06b6d4; }
-  tr.sport-sa td.sport-label { border-left-color: #ffffff; }
-  tr.sport-cl td.sport-label { border-left-color: #84cc16; }
-  tr.sport-tq td.sport-label { border-left-color: #fb923c; }
-  tr.sport-aq td.sport-label { border-left-color: #22d3ee; }
-  tr.sport-bv td.sport-label { border-left-color: #f43f5e; }
-  tr.sport-wr td.sport-label { border-left-color: #d97706; }
-
-  .phase-final { color: #ffd700; font-weight: 700; }
-  .phase-semi  { color: #fb923c; }
-  .phase-qual  { color: #a8ff3e; }
-  .phase-group { color: #94a3b8; }
-
-  /* footer */
+  tr:hover td { background-color: rgba(255,255,255,0.015); }
+  tr:hover td.sport-label { background-color: rgba(255,255,255,0.04); }
+  tr:hover td.day-cell.empty { background: rgba(0,0,0,0.18); }
   .footer {
     text-align: center;
     margin-top: 50px;
@@ -289,10 +229,6 @@
     border-top: 1px solid var(--border);
     padding-top: 20px;
   }
-
-  /* Highlight row on hover */
-  tr:hover td { background-color: rgba(255,255,255,0.02); }
-  tr:hover td.sport-label { background-color: rgba(255,255,255,0.04); }
 </style>
 </head>
 <body>
@@ -300,7 +236,7 @@
 <div class="header">
   <h1>竞赛总日程</h1>
   <h2>Competition Master Schedule</h2>
-  <div class="date-range">4月18日 — 4月29日 &nbsp;|&nbsp; April 18 – 29, 2026</div>
+  <div class="date-range">4月21日 — 4月29日 &nbsp;|&nbsp; April 21 – 29, 2026</div>
 </div>
 
 <div class="legend">
@@ -313,7 +249,7 @@
   <div class="legend-item"><div class="legend-dot" style="background:#ec4899"></div>沙滩手球</div>
   <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div>柔术</div>
   <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div>沙滩卡巴迪</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#ffffff"></div>帆船</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#cbd5e1"></div>帆船</div>
   <div class="legend-item"><div class="legend-dot" style="background:#84cc16"></div>攀岩</div>
   <div class="legend-item"><div class="legend-dot" style="background:#fb923c"></div>台克球</div>
   <div class="legend-item"><div class="legend-dot" style="background:#22d3ee"></div>游跑两项</div>
@@ -321,14 +257,19 @@
   <div class="legend-item"><div class="legend-dot" style="background:#d97706"></div>沙滩摔跤</div>
 </div>
 
+<div class="phase-legend">
+  <span><span class="ph-dot" style="background:#94a3b8"></span>小组赛 / 预赛</span>
+  <span><span class="ph-dot" style="background:#a8ff3e"></span>资格赛 / 晋级赛</span>
+  <span><span class="ph-dot" style="background:#fb923c"></span>半决赛 / 四分之一决赛</span>
+  <span><span class="ph-dot" style="background:#cd7f32"></span>铜牌赛</span>
+  <span><span class="ph-dot" style="background:#ffd700"></span>🏅 决赛 / 颁奖</span>
+</div>
+
 <div class="schedule-container">
 <table class="schedule">
 <thead>
 <tr>
   <th class="sport-col">项目 / Sport</th>
-  <th class="date-header"><span class="day-num">18</span><span class="day-label">APR · SAT</span></th>
-  <th class="date-header"><span class="day-num">19</span><span class="day-label">APR · SUN</span></th>
-  <th class="date-header"><span class="day-num">20</span><span class="day-label">APR · MON</span></th>
   <th class="date-header"><span class="day-num">21</span><span class="day-label">APR · TUE</span></th>
   <th class="date-header"><span class="day-num">22</span><span class="day-label">APR · WED</span></th>
   <th class="date-header"><span class="day-num">23</span><span class="day-label">APR · THU</span></th>
@@ -342,357 +283,329 @@
 </thead>
 <tbody>
 
-<!-- 公开水域游泳 Open Water Swimming -->
+<!-- 公开水域游泳 -->
 <tr class="sport-ow">
-  <td class="sport-label">
-    <span class="sport-icon">🌊</span>
-    <span class="sport-name-zh">公开水域游泳</span>
-    <span class="sport-name-en">Open Water Swimming</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">🌊</span><span class="sport-name-zh">公开水域游泳</span><span class="sport-name-en">Open Water Swimming</span></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–11:30</div><div class="event-name">女子5公里</div><div class="phase phase-final">决赛</div></div>
+    <div class="event-pill"><div class="time">09:00–11:30</div><div class="event-name">女子5公里 Women's 5km</div><div class="phase phase-final">🏅 决赛 Final</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–11:30</div><div class="event-name">男子5公里</div><div class="phase phase-final">决赛</div></div>
+    <div class="event-pill"><div class="time">09:00–11:30</div><div class="event-name">男子5公里 Men's 5km</div><div class="phase phase-final">🏅 决赛 Final</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–11:30</div><div class="event-name">混合4×1.5km接力</div><div class="phase phase-final">决赛</div></div>
+    <div class="event-pill"><div class="time">09:00–11:30</div><div class="event-name">混合4×1.5km接力 Mixed Relay</div><div class="phase phase-final">🏅 决赛 Final</div></div>
   </td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
 </tr>
 
-<!-- 水球 Water Polo -->
+<!-- 水球 -->
 <tr class="sport-wp">
-  <td class="sport-label">
-    <span class="sport-icon">🤽</span>
-    <span class="sport-name-zh">水球</span>
-    <span class="sport-name-en">Water Polo</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">🤽</span><span class="sport-name-zh">水球</span><span class="sport-name-en">Water Polo</span></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:30 / 10:15</div><div class="event-name">女子 G1–2</div><div class="phase phase-group">单循环决赛</div></div>
-    <div class="event-pill"><div class="time">14:45–16:45</div><div class="event-name">男子 G1–3</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">09:30</div><div class="event-name">女 G1: 1队vs5队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">10:15</div><div class="event-name">女 G2: 2队vs4队（3轮空）</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">14:45</div><div class="event-name">男 G1: 1队vs6队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">15:30</div><div class="event-name">男 G2: 2队vs5队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">16:45</div><div class="event-name">男 G3: 3队vs4队</div><div class="phase phase-group">单循环决赛</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:30 / 10:15</div><div class="event-name">女子 G3–4</div><div class="phase phase-group">单循环决赛</div></div>
-    <div class="event-pill"><div class="time">14:45–16:45</div><div class="event-name">男子 G4–6</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">09:30</div><div class="event-name">女 G3: 5队vs3队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">10:15</div><div class="event-name">女 G4: 1队vs4队（2轮空）</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">14:45</div><div class="event-name">男 G4: 5队vs3队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">15:30</div><div class="event-name">男 G5: 1队vs4队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">16:45</div><div class="event-name">男 G6: 6队vs2队</div><div class="phase phase-group">单循环决赛</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:30 / 10:15</div><div class="event-name">女子 G5–6</div><div class="phase phase-group">单循环决赛</div></div>
-    <div class="event-pill"><div class="time">14:45–16:45</div><div class="event-name">男子 G7–9</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">09:30</div><div class="event-name">女 G5: 2队vs3队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">10:15</div><div class="event-name">女 G6: 4队vs5队（1轮空）</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">14:45</div><div class="event-name">男 G7: 1队vs5队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">15:30</div><div class="event-name">男 G8: 2队vs3队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">16:45</div><div class="event-name">男 G9: 6队vs4队</div><div class="phase phase-group">单循环决赛</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:30 / 10:15</div><div class="event-name">女子 G7–8</div><div class="phase phase-group">单循环决赛</div></div>
-    <div class="event-pill"><div class="time">14:45–16:45</div><div class="event-name">男子 G10–12</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">09:30</div><div class="event-name">女 G7: 1队vs3队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">10:15</div><div class="event-name">女 G8: 5队vs2队（4轮空）</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">14:45</div><div class="event-name">男 G10: 4队vs2队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">15:30</div><div class="event-name">男 G11: 5队vs6队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">16:45</div><div class="event-name">男 G12: 1队vs3队</div><div class="phase phase-group">单循环决赛</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:30 / 10:15</div><div class="event-name">女子 G9–10 🏅</div><div class="phase phase-final">颁奖仪式</div></div>
-    <div class="event-pill"><div class="time">14:45–16:45</div><div class="event-name">男子 G13–15 🏅</div><div class="phase phase-final">颁奖仪式</div></div>
+    <div class="event-pill"><div class="time">09:30</div><div class="event-name">女 G9: 3队vs4队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">10:15</div><div class="event-name">女 G10: 1队vs2队 🏅</div><div class="phase phase-final">颁奖仪式</div></div>
+    <div class="event-pill"><div class="time">14:45</div><div class="event-name">男 G13: 5队vs6队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">15:30</div><div class="event-name">男 G14: 3队vs4队</div><div class="phase phase-group">单循环决赛</div></div>
+    <div class="event-pill"><div class="time">16:45</div><div class="event-name">男 G15: 1队vs2队 🏅</div><div class="phase phase-final">颁奖仪式</div></div>
   </td>
 </tr>
 
-<!-- 三人篮球 3x3 Basketball -->
+<!-- 三人篮球 -->
 <tr class="sport-bb">
-  <td class="sport-label">
-    <span class="sport-icon">🏀</span>
-    <span class="sport-name-zh">三人篮球</span>
-    <span class="sport-name-en">3×3 Basketball</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">🏀</span><span class="sport-name-zh">三人篮球</span><span class="sport-name-en">3×3 Basketball</span></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">11:00–14:20</div><div class="event-name">男/女 A组</div><div class="phase phase-group">小组赛</div></div>
-    <div class="event-pill"><div class="time">16:20–19:40</div><div class="event-name">男/女 C组</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">11:00–14:20</div><div class="event-name">男/女 A组 全部场次（G1–8）</div><div class="phase phase-group">小组赛 Round Robin</div></div>
+    <div class="event-pill"><div class="time">16:20–19:40</div><div class="event-name">男/女 C组 全部场次（G9–16）</div><div class="phase phase-group">小组赛 Round Robin</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">11:00–14:20</div><div class="event-name">男/女 B组</div><div class="phase phase-group">小组赛</div></div>
-    <div class="event-pill"><div class="time">16:20–19:40</div><div class="event-name">男/女 D组</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">11:00–14:20</div><div class="event-name">男/女 B组 全部场次（G17–24）</div><div class="phase phase-group">小组赛 Round Robin</div></div>
+    <div class="event-pill"><div class="time">16:20–19:40</div><div class="event-name">男/女 D组 全部场次（G25–32）</div><div class="phase phase-group">小组赛 Round Robin</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">11:00–14:20</div><div class="event-name">男/女 A+B组</div><div class="phase phase-group">小组赛</div></div>
-    <div class="event-pill"><div class="time">16:20–19:40</div><div class="event-name">男/女 C+D组</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">11:00–14:20</div><div class="event-name">男/女 A+B组 末轮（G33–40）</div><div class="phase phase-group">小组赛 Round Robin</div></div>
+    <div class="event-pill"><div class="time">16:20–19:40</div><div class="event-name">男/女 C+D组 末轮（G41–48）</div><div class="phase phase-group">小组赛 Round Robin</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">11:00–14:20</div><div class="event-name">晋级赛 男/女</div><div class="phase phase-qual">四分之一晋级</div></div>
-    <div class="event-pill"><div class="time">16:20–19:40</div><div class="event-name">四分之一决赛</div><div class="phase phase-semi">QF 男/女</div></div>
+    <div class="event-pill"><div class="time">11:00–14:20</div><div class="event-name">男/女 四分之一晋级赛（G49–56）</div><div class="phase phase-qual">Qualifications to QF</div></div>
+    <div class="event-pill"><div class="time">16:20–19:40</div><div class="event-name">男/女 四分之一决赛（G57–64）</div><div class="phase phase-semi">Quarterfinals</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">14:00–15:40</div><div class="event-name">半决赛 男/女</div><div class="phase phase-semi">SF</div></div>
-    <div class="event-pill"><div class="time">18:00–20:10</div><div class="event-name">铜牌/金牌赛🏅</div><div class="phase phase-final">Finals</div></div>
+    <div class="event-pill"><div class="time">14:00–14:25</div><div class="event-name">女子半决赛 G65 · G66</div><div class="phase phase-semi">Semifinals</div></div>
+    <div class="event-pill"><div class="time">14:50–15:15</div><div class="event-name">男子半决赛 G67 · G68</div><div class="phase phase-semi">Semifinals</div></div>
+    <div class="event-pill"><div class="time">18:00–18:30</div><div class="event-name">女子铜牌赛 G69 · 男子铜牌赛 G70</div><div class="phase phase-bronze">Bronze Medal</div></div>
+    <div class="event-pill"><div class="time">19:00–19:30</div><div class="event-name">女子金牌赛 G71 · 男子金牌赛 G72 🏅</div><div class="phase phase-final">Gold Medal · 颁奖</div></div>
   </td>
 </tr>
 
-<!-- 沙滩田径 Beach Athletics -->
+<!-- 沙滩田径 -->
 <tr class="sport-ba">
-  <td class="sport-label">
-    <span class="sport-icon">🏃</span>
-    <span class="sport-name-zh">沙滩田径</span>
-    <span class="sport-name-en">Beach Athletics</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">🏃</span><span class="sport-name-zh">沙滩田径</span><span class="sport-name-en">Beach Athletics</span></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">08:40–09:20</div><div class="event-name">男/女60m · 跳高 · 铅球 · 跳远</div><div class="phase phase-qual">预赛/资格赛</div></div>
+    <div class="event-pill"><div class="time">08:40–09:00</div><div class="event-name">男子60m</div><div class="phase phase-qual">预赛 Preliminary</div></div>
+    <div class="event-pill"><div class="time">09:00–09:20</div><div class="event-name">女子60m</div><div class="phase phase-qual">预赛 Preliminary</div></div>
+    <div class="event-pill"><div class="time">08:40–09:10</div><div class="event-name">女子跳高 Women's High Jump</div><div class="phase phase-qual">资格赛 Qualification</div></div>
+    <div class="event-pill"><div class="time">08:40–09:20</div><div class="event-name">男子铅球 Men's Shot Put</div><div class="phase phase-qual">资格赛 Qualification</div></div>
+    <div class="event-pill"><div class="time">08:40–09:10</div><div class="event-name">男子跳远 Men's Long Jump</div><div class="phase phase-qual">资格赛 Qualification</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">08:30–10:50</div><div class="event-name">60m复赛 · 女子跳远/铅球 · 男子跳高</div><div class="phase phase-qual">复赛/资格赛</div></div>
-    <div class="event-pill"><div class="time">10:30–10:50</div><div class="event-name">男/女60m 🏅</div><div class="phase phase-final">决赛·颁奖</div></div>
+    <div class="event-pill"><div class="time">08:30–08:50</div><div class="event-name">女子60m</div><div class="phase phase-qual">复赛 Second stage</div></div>
+    <div class="event-pill"><div class="time">08:50–09:00</div><div class="event-name">男子60m</div><div class="phase phase-qual">复赛 Second stage</div></div>
+    <div class="event-pill"><div class="time">09:00–09:40</div><div class="event-name">女子跳远 Women's Long Jump</div><div class="phase phase-qual">资格赛 Qualification</div></div>
+    <div class="event-pill"><div class="time">09:00–09:40</div><div class="event-name">女子铅球 Women's Shot Put</div><div class="phase phase-qual">资格赛 Qualification</div></div>
+    <div class="event-pill"><div class="time">09:00–09:50</div><div class="event-name">男子跳高 Men's High Jump</div><div class="phase phase-qual">资格赛 Qualification</div></div>
+    <div class="event-pill"><div class="time">10:30–10:40</div><div class="event-name">男子60m 🏅</div><div class="phase phase-final">决赛 Final</div></div>
+    <div class="event-pill"><div class="time">10:40–10:50</div><div class="event-name">女子60m 🏅 · 颁奖仪式</div><div class="phase phase-final">决赛 Final · 颁奖</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–11:00</div><div class="event-name">女子跳远/跳高 · 男子铅球/跳远 🏅</div><div class="phase phase-final">决赛</div></div>
-    <div class="event-pill"><div class="time">10:00–10:20</div><div class="event-name">男/女4×60m Relay</div><div class="phase phase-qual">预赛</div></div>
+    <div class="event-pill"><div class="time">09:00–10:00</div><div class="event-name">女子跳远 🏅 Women's Long Jump</div><div class="phase phase-final">决赛 Final</div></div>
+    <div class="event-pill"><div class="time">09:30–10:50</div><div class="event-name">男子铅球 🏅 Men's Shot Put</div><div class="phase phase-final">决赛 Final</div></div>
+    <div class="event-pill"><div class="time">09:30–11:00</div><div class="event-name">女子跳高 🏅 Women's High Jump</div><div class="phase phase-final">决赛 Final</div></div>
+    <div class="event-pill"><div class="time">10:00–11:00</div><div class="event-name">男子跳远 🏅 Men's Long Jump</div><div class="phase phase-final">决赛 Final</div></div>
+    <div class="event-pill"><div class="time">10:00–10:10</div><div class="event-name">男子4×60m接力</div><div class="phase phase-qual">预赛 Preliminary</div></div>
+    <div class="event-pill"><div class="time">10:10–10:20</div><div class="event-name">女子4×60m接力</div><div class="phase phase-qual">预赛 Preliminary</div></div>
+    <div class="event-pill"><div class="time">11:00</div><div class="event-name">颁奖仪式 Victory Ceremony 🏅</div><div class="phase phase-final">颁奖</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–10:30</div><div class="event-name">女子铅球 · 男子跳高 🏅</div><div class="phase phase-final">决赛</div></div>
-    <div class="event-pill"><div class="time">10:10–10:50</div><div class="event-name">男/女4×60m Relay 🏅</div><div class="phase phase-final">决赛·颁奖</div></div>
+    <div class="event-pill"><div class="time">09:00–10:20</div><div class="event-name">女子铅球 🏅 Women's Shot Put</div><div class="phase phase-final">决赛 Final</div></div>
+    <div class="event-pill"><div class="time">09:00–10:30</div><div class="event-name">男子跳高 🏅 Men's High Jump</div><div class="phase phase-final">决赛 Final</div></div>
+    <div class="event-pill"><div class="time">10:10–10:20</div><div class="event-name">女子4×60m接力 🏅</div><div class="phase phase-final">决赛 Final</div></div>
+    <div class="event-pill"><div class="time">10:20–10:30</div><div class="event-name">男子4×60m接力 🏅</div><div class="phase phase-final">决赛 Final</div></div>
+    <div class="event-pill"><div class="time">10:30</div><div class="event-name">颁奖仪式 Victory Ceremony 🏅</div><div class="phase phase-final">颁奖</div></div>
   </td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
 </tr>
 
-<!-- 龙舟 Dragon Boat -->
+<!-- 龙舟 -->
 <tr class="sport-db">
-  <td class="sport-label">
-    <span class="sport-icon">🐉</span>
-    <span class="sport-name-zh">龙舟</span>
-    <span class="sport-name-en">Dragon Boat</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">🐉</span><span class="sport-name-zh">龙舟</span><span class="sport-name-en">Dragon Boat</span></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00</div><div class="event-name">开赛仪式</div><div class="phase phase-group">Opening</div></div>
-    <div class="event-pill"><div class="time">9:15–12:00</div><div class="event-name">男/女12人 100m 🏅</div><div class="phase phase-final">决赛·颁奖</div></div>
+    <div class="event-pill"><div class="time">09:00</div><div class="event-name">开赛仪式 Opening Ceremony（待确认）</div><div class="phase phase-group">Opening</div></div>
+    <div class="event-pill"><div class="time">09:15–12:00</div><div class="event-name">男子12人制100m 🏅</div><div class="phase phase-final">决赛 Final · 颁奖</div></div>
+    <div class="event-pill"><div class="time">09:15–12:00</div><div class="event-name">女子12人制100m 🏅</div><div class="phase phase-final">决赛 Final · 颁奖</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">9:00–12:00</div><div class="event-name">男/女12人 200m 🏅</div><div class="phase phase-final">决赛·颁奖</div></div>
+    <div class="event-pill"><div class="time">09:00–12:00</div><div class="event-name">男子12人制200m 🏅</div><div class="phase phase-final">决赛 Final · 颁奖</div></div>
+    <div class="event-pill"><div class="time">09:00–12:00</div><div class="event-name">女子12人制200m 🏅</div><div class="phase phase-final">决赛 Final · 颁奖</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">9:00–12:00</div><div class="event-name">男/女12人 400m 🏅</div><div class="phase phase-final">决赛·颁奖</div></div>
+    <div class="event-pill"><div class="time">09:00–12:00</div><div class="event-name">男子12人制400m 🏅</div><div class="phase phase-final">决赛 Final · 颁奖</div></div>
+    <div class="event-pill"><div class="time">09:00–12:00</div><div class="event-name">女子12人制400m 🏅</div><div class="phase phase-final">决赛 Final · 颁奖</div></div>
   </td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
 </tr>
 
-<!-- 沙滩足球 Beach Football -->
+<!-- 沙滩足球 -->
 <tr class="sport-bf">
-  <td class="sport-label">
-    <span class="sport-icon">⚽</span>
-    <span class="sport-name-zh">沙滩足球</span>
-    <span class="sport-name-en">Beach Football</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">⚽</span><span class="sport-name-zh">沙滩足球</span><span class="sport-name-en">Beach Football</span></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–20:30</div><div class="event-name">女子A/B/C组 · 男子A–E组</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">09:00–10:30</div><div class="event-name">女 A/B/C组（V1+V2）G1–3</div><div class="phase phase-group">小组赛 Preliminary</div></div>
+    <div class="event-pill"><div class="time">16:00–20:30</div><div class="event-name">男 A/B/C/D/E组（V1+V2）G1–9</div><div class="phase phase-group">小组赛 Preliminary</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–10:30</div><div class="event-name">女子A/B/C组</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">09:00–10:30</div><div class="event-name">女 A/B/C组 G4–6</div><div class="phase phase-group">小组赛 Preliminary</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">10:00–19:00</div><div class="event-name">男子B/C/D/E组</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">10:00–19:00</div><div class="event-name">男 B/C/D/E组 G10–18</div><div class="phase phase-group">小组赛 Preliminary</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–20:30</div><div class="event-name">女子A/B/C组 · 男子A–E组</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">09:00–10:30</div><div class="event-name">女 A/B/C组 G7–9</div><div class="phase phase-group">小组赛 Preliminary</div></div>
+    <div class="event-pill"><div class="time">16:00–20:30</div><div class="event-name">男 A/B/C/D/E组 G19–27</div><div class="phase phase-group">小组赛 Preliminary</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–10:30</div><div class="event-name">女子 1/4决赛</div><div class="phase phase-semi">QF</div></div>
-    <div class="event-pill"><div class="time">16:00–20:30</div><div class="event-name">男子 1/8决赛</div><div class="phase phase-semi">R16</div></div>
+    <div class="event-pill"><div class="time">09:00–10:30</div><div class="event-name">女子 1/4淘汰赛 G10–13</div><div class="phase phase-semi">1/4 Finals</div></div>
+    <div class="event-pill"><div class="time">16:00–20:30</div><div class="event-name">男子 1/8淘汰赛 G28–35</div><div class="phase phase-semi">1/8 Finals</div></div>
   </td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">19:00–20:30</div><div class="event-name">男子 1/4决赛</div><div class="phase phase-semi">QF</div></div>
+    <div class="event-pill"><div class="time">19:00–20:30</div><div class="event-name">男子 1/4淘汰赛 G36–39</div><div class="phase phase-semi">1/4 Finals</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">19:00–20:30</div><div class="event-name">男/女 半决赛</div><div class="phase phase-semi">SF</div></div>
+    <div class="event-pill"><div class="time">19:00</div><div class="event-name">女子半决赛 SF14 · SF15</div><div class="phase phase-semi">Semi-Finals</div></div>
+    <div class="event-pill"><div class="time">20:30</div><div class="event-name">男子半决赛 SF40 · SF41</div><div class="phase phase-semi">Semi-Finals</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">19:00–20:30</div><div class="event-name">男/女 3/4 &amp; 决赛 🏅</div><div class="phase phase-final">Finals</div></div>
+    <div class="event-pill"><div class="time">19:00</div><div class="event-name">女子3/4名决赛(V2) · 冠亚军(V1) 🏅</div><div class="phase phase-final">Finals</div></div>
+    <div class="event-pill"><div class="time">20:30</div><div class="event-name">男子3/4名决赛(V2) · 冠亚军(V1) 🏅</div><div class="phase phase-final">Finals</div></div>
   </td>
 </tr>
 
-<!-- 沙滩手球 Beach Handball -->
+<!-- 沙滩手球 -->
 <tr class="sport-bh">
-  <td class="sport-label">
-    <span class="sport-icon">🤾</span>
-    <span class="sport-name-zh">沙滩手球</span>
-    <span class="sport-name-en">Beach Handball</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">🤾</span><span class="sport-name-zh">沙滩手球</span><span class="sport-name-en">Beach Handball</span></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">10:00–12:40</div><div class="event-name">女子A组</div><div class="phase phase-final">决赛轮</div></div>
-    <div class="event-pill"><div class="time">17:00–21:40</div><div class="event-name">男子A/B组 (2球场)</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">10:00–12:40</div><div class="event-name">女子A组 G1–3（Court1）</div><div class="phase phase-final">决赛轮 Final Round</div></div>
+    <div class="event-pill"><div class="time">17:00–21:40</div><div class="event-name">男子A/B组 Court1 G1–5</div><div class="phase phase-group">小组赛 Preliminary</div></div>
+    <div class="event-pill"><div class="time">17:00–21:40</div><div class="event-name">男子A/B组 Court2 G6–10</div><div class="phase phase-group">小组赛 Preliminary</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">10:00–12:40</div><div class="event-name">女子A组</div><div class="phase phase-final">决赛轮</div></div>
-    <div class="event-pill"><div class="time">17:00–21:40</div><div class="event-name">男子A/B组 (2球场)</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">10:00–12:40</div><div class="event-name">女子A组 G4–6（Court1）</div><div class="phase phase-final">决赛轮 Final Round</div></div>
+    <div class="event-pill"><div class="time">17:00–21:40</div><div class="event-name">男子A/B组 Court1 G11–15</div><div class="phase phase-group">小组赛 Preliminary</div></div>
+    <div class="event-pill"><div class="time">17:00–21:40</div><div class="event-name">男子A/B组 Court2 G16–20</div><div class="phase phase-group">小组赛 Preliminary</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">10:00–12:40</div><div class="event-name">女子A组</div><div class="phase phase-final">决赛轮</div></div>
-    <div class="event-pill"><div class="time">17:00–21:40</div><div class="event-name">男子A/B组</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">10:00–12:40</div><div class="event-name">女子A组 G7–9（Court1）</div><div class="phase phase-final">决赛轮 Final Round</div></div>
+    <div class="event-pill"><div class="time">17:00–21:40</div><div class="event-name">男子A/B组 Court1 G21–25</div><div class="phase phase-group">小组赛 Preliminary</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">10:00–12:40</div><div class="event-name">女子A组</div><div class="phase phase-final">决赛轮</div></div>
-    <div class="event-pill"><div class="time">18:00–19:40</div><div class="event-name">男子半决赛</div><div class="phase phase-semi">SF</div></div>
+    <div class="event-pill"><div class="time">10:00–12:40</div><div class="event-name">女子A组 G10–12（Court1）</div><div class="phase phase-final">决赛轮 Final Round</div></div>
+    <div class="event-pill"><div class="time">18:00–18:40</div><div class="event-name">男子半决赛 M26: A组1st vs B组2nd</div><div class="phase phase-semi">Semi Final</div></div>
+    <div class="event-pill"><div class="time">19:00–19:40</div><div class="event-name">男子半决赛 M27: B组1st vs A组2nd</div><div class="phase phase-semi">Semi Final</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">17:00–19:40</div><div class="event-name">女子决赛轮</div><div class="phase phase-final">Final Round</div></div>
-    <div class="event-pill"><div class="time">20:00–21:40</div><div class="event-name">男子铜牌/金牌赛 🏅</div><div class="phase phase-final">Finals</div></div>
+    <div class="event-pill"><div class="time">17:00–17:40</div><div class="event-name">女子A组 G13: A6 vs A3</div><div class="phase phase-final">决赛轮 Final Round</div></div>
+    <div class="event-pill"><div class="time">18:00–18:40</div><div class="event-name">女子A组 G14: A4 vs A5</div><div class="phase phase-final">决赛轮 Final Round</div></div>
+    <div class="event-pill"><div class="time">19:00–19:40</div><div class="event-name">女子A组 G15: A1 vs A2</div><div class="phase phase-final">决赛轮 Final Round</div></div>
+    <div class="event-pill"><div class="time">20:00–20:40</div><div class="event-name">男子铜牌赛 M28</div><div class="phase phase-bronze">Bronze Medal</div></div>
+    <div class="event-pill"><div class="time">21:00–21:40</div><div class="event-name">男子金牌赛 M29 🏅</div><div class="phase phase-final">Gold Medal · 颁奖</div></div>
   </td>
-  <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
 </tr>
 
-<!-- 柔术 Jiu Jitsu -->
+<!-- 柔术 -->
 <tr class="sport-jj">
-  <td class="sport-label">
-    <span class="sport-icon">🥋</span>
-    <span class="sport-name-zh">柔术</span>
-    <span class="sport-name-en">Jiu Jitsu</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">🥋</span><span class="sport-name-zh">柔术</span><span class="sport-name-en">Jiu Jitsu</span></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–13:30</div><div class="event-name">女-52kg / 男-62kg</div><div class="phase phase-qual">预赛·复活·半决赛</div></div>
-    <div class="event-pill"><div class="time">16:00–18:00</div><div class="event-name">女-52kg / 男-62kg 🏅</div><div class="phase phase-final">铜牌·决赛·颁奖</div></div>
+    <div class="event-pill"><div class="time">09:00–13:30</div><div class="event-name">女-52kg / 男-62kg</div><div class="phase phase-qual">预赛 · 复活赛 · 半决赛</div></div>
+    <div class="event-pill"><div class="time">16:00–18:00</div><div class="event-name">女-52kg / 男-62kg 🏅</div><div class="phase phase-final">铜牌赛 · 决赛 · 颁奖</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–13:30</div><div class="event-name">女-57kg / 男-69kg</div><div class="phase phase-qual">预赛·复活·半决赛</div></div>
-    <div class="event-pill"><div class="time">16:00–18:00</div><div class="event-name">女-57kg / 男-69kg 🏅</div><div class="phase phase-final">铜牌·决赛·颁奖</div></div>
+    <div class="event-pill"><div class="time">09:00–13:30</div><div class="event-name">女-57kg / 男-69kg</div><div class="phase phase-qual">预赛 · 复活赛 · 半决赛</div></div>
+    <div class="event-pill"><div class="time">16:00–18:00</div><div class="event-name">女-57kg / 男-69kg 🏅</div><div class="phase phase-final">铜牌赛 · 决赛 · 颁奖</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–13:30</div><div class="event-name">女-63kg / 男-77kg</div><div class="phase phase-qual">预赛·复活·半决赛</div></div>
-    <div class="event-pill"><div class="time">16:00–18:00</div><div class="event-name">女-63kg / 男-77kg 🏅</div><div class="phase phase-final">铜牌·决赛·颁奖</div></div>
+    <div class="event-pill"><div class="time">09:00–13:30</div><div class="event-name">女-63kg / 男-77kg</div><div class="phase phase-qual">预赛 · 复活赛 · 半决赛</div></div>
+    <div class="event-pill"><div class="time">16:00–18:00</div><div class="event-name">女-63kg / 男-77kg 🏅</div><div class="phase phase-final">铜牌赛 · 决赛 · 颁奖</div></div>
   </td>
+  <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
 </tr>
 
-<!-- 沙滩卡巴迪 Beach Kabaddi -->
+<!-- 沙滩卡巴迪 -->
 <tr class="sport-ka">
-  <td class="sport-label">
-    <span class="sport-icon">🤼</span>
-    <span class="sport-name-zh">沙滩卡巴迪</span>
-    <span class="sport-name-en">Beach Kabaddi</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">🤼</span><span class="sport-name-zh">沙滩卡巴迪</span><span class="sport-name-en">Beach Kabaddi</span></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–18:35</div><div class="event-name">男子A/B组</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">09:00–11:35</div><div class="event-name">男子A组 G1–3（Court1）</div><div class="phase phase-group">小组赛 Group Stage</div></div>
+    <div class="event-pill"><div class="time">16:00–18:35</div><div class="event-name">男子B组 G4–6（Court1）</div><div class="phase phase-group">小组赛 Group Stage</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–18:35</div><div class="event-name">女子单循环赛</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">09:00–11:35</div><div class="event-name">女子单循环 G7–9（Court2）</div><div class="phase phase-group">小组赛 Group Stage</div></div>
+    <div class="event-pill"><div class="time">16:00–18:35</div><div class="event-name">女子单循环 G10–12（Court2）</div><div class="phase phase-group">小组赛 Group Stage</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–18:35</div><div class="event-name">男子A/B组</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">09:00–11:35</div><div class="event-name">男子B/A组 G13–15（Court1）</div><div class="phase phase-group">小组赛 Group Stage</div></div>
+    <div class="event-pill"><div class="time">16:00–18:35</div><div class="event-name">男子A/B组 G16–18（Court1）</div><div class="phase phase-group">小组赛 Group Stage</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–18:35</div><div class="event-name">女子单循环赛</div><div class="phase phase-group">小组赛</div></div>
+    <div class="event-pill"><div class="time">09:00–11:35</div><div class="event-name">女子单循环 G19–21（Court2）</div><div class="phase phase-group">小组赛 Group Stage</div></div>
+    <div class="event-pill"><div class="time">16:00–18:35</div><div class="event-name">女子单循环 G22–24（Court2）</div><div class="phase phase-group">小组赛 Group Stage</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–18:35</div><div class="event-name">男子淘汰赛 · 半决赛</div><div class="phase phase-semi">QF · SF</div></div>
+    <div class="event-pill"><div class="time">09:00–11:35</div><div class="event-name">男子1/4决赛 G25–27（Court1）</div><div class="phase phase-semi">Quarterfinals</div></div>
+    <div class="event-pill"><div class="time">16:00–16:35</div><div class="event-name">男子1/4决赛 G28（Court1）</div><div class="phase phase-semi">Quarterfinals</div></div>
+    <div class="event-pill"><div class="time">17:00–17:35</div><div class="event-name">男子半决赛 SF29: G25胜 vs G28胜</div><div class="phase phase-semi">Semifinals</div></div>
+    <div class="event-pill"><div class="time">18:00–18:35</div><div class="event-name">男子半决赛 SF30: G26胜 vs G27胜</div><div class="phase phase-semi">Semifinals</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–17:30</div><div class="event-name">女子决赛 · 男子决赛 🏅</div><div class="phase phase-final">Finals · 颁奖</div></div>
+    <div class="event-pill"><div class="time">09:00–09:35</div><div class="event-name">女子决赛 G31: W1st vs W2nd 🏅</div><div class="phase phase-final">Final · 颁奖</div></div>
+    <div class="event-pill"><div class="time">16:00–16:35</div><div class="event-name">男子决赛 G32: SF29胜 vs SF30胜 🏅</div><div class="phase phase-final">Final · 颁奖</div></div>
   </td>
   <td class="day-cell empty"></td>
 </tr>
 
-<!-- 帆船 Sailing -->
+<!-- 帆船 -->
 <tr class="sport-sa">
-  <td class="sport-label">
-    <span class="sport-icon">⛵</span>
-    <span class="sport-name-zh">帆船</span>
-    <span class="sport-name-en">Sailing</span>
+  <td class="sport-label"><span class="sport-icon">⛵</span><span class="sport-name-zh">帆船</span><span class="sport-name-en">Sailing</span></td>
+  <td class="day-cell empty"></td>
+  <td class="day-cell empty"></td>
+  <td class="day-cell">
+    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地A: 男/女OP帆船 · 男/女ILCA4</div><div class="phase phase-group">比赛日1 Race Day 1</div></div>
+    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地B: 男/女风筝板 · 男/女帆板</div><div class="phase phase-group">比赛日1 Race Day 1</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–17:00</div><div class="event-name">技术官员报到</div><div class="phase phase-group">Registration</div></div>
+    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地A: 男/女OP帆船 · 男/女ILCA4</div><div class="phase phase-group">比赛日2 Race Day 2</div></div>
+    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地B: 男/女风筝板 · 男/女帆板</div><div class="phase phase-group">比赛日2 Race Day 2</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00</div><div class="event-name">器材抽签</div><div class="phase phase-group">Draw</div></div>
-    <div class="event-pill"><div class="time">09:00–17:00</div><div class="event-name">运动员报到 · 器材检查</div><div class="phase phase-group">Registration</div></div>
+    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地A: 男/女OP帆船 · 男/女ILCA4</div><div class="phase phase-group">比赛日3 Race Day 3</div></div>
+    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地B: 男/女风筝板 · 男/女帆板</div><div class="phase phase-group">比赛日3 Race Day 3</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">全天</div><div class="event-name">技术官员2报到 · 器材检查训练</div><div class="phase phase-group">Prep</div></div>
+    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地A: 男/女OP帆船 · 男/女ILCA4</div><div class="phase phase-group">比赛日4 Race Day 4</div></div>
+    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地B: 男/女风筝板 · 男/女帆板</div><div class="phase phase-group">比赛日4 Race Day 4</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00</div><div class="event-name">领队·技术会议</div><div class="phase phase-group">Meeting</div></div>
-    <div class="event-pill"><div class="time">09:00–17:00</div><div class="event-name">器材检查·训练</div><div class="phase phase-group">Training</div></div>
+    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地A: 男/女OP帆船 · 男/女ILCA4</div><div class="phase phase-group">比赛日5 Race Day 5</div></div>
+    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地B: 男/女风筝板 · 男/女帆板</div><div class="phase phase-group">比赛日5 Race Day 5</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">14:00</div><div class="event-name">练习赛</div><div class="phase phase-group">Practice</div></div>
-  </td>
-  <td class="day-cell">
-    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地A: OP帆船/ILCA4<br>场地B: 风筝板/帆板</div><div class="phase phase-group">比赛日1</div></div>
-  </td>
-  <td class="day-cell">
-    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地A+B 比赛</div><div class="phase phase-group">比赛日2</div></div>
-  </td>
-  <td class="day-cell">
-    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地A+B 比赛</div><div class="phase phase-group">比赛日3</div></div>
-  </td>
-  <td class="day-cell">
-    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地A+B 比赛</div><div class="phase phase-group">比赛日4</div></div>
-  </td>
-  <td class="day-cell">
-    <div class="event-pill"><div class="time">11:00–17:30</div><div class="event-name">场地A+B 比赛</div><div class="phase phase-group">比赛日5</div></div>
-  </td>
-  <td class="day-cell">
-    <div class="event-pill"><div class="time">11:00–14:00</div><div class="event-name">场地A+B 最终比赛 🏅</div><div class="phase phase-final">决赛日</div></div>
-    <div class="event-pill"><div class="time">17:00</div><div class="event-name">颁奖仪式</div><div class="phase phase-final">Victory</div></div>
+    <div class="event-pill"><div class="time">11:00–14:00</div><div class="event-name">场地A: 男/女OP帆船 · 男/女ILCA4 🏅</div><div class="phase phase-final">决赛日 Final Day</div></div>
+    <div class="event-pill"><div class="time">11:00–14:00</div><div class="event-name">场地B: 男/女风筝板 · 男/女帆板 🏅</div><div class="phase phase-final">决赛日 Final Day</div></div>
+    <div class="event-pill"><div class="time">17:00</div><div class="event-name">颁奖仪式 Victory Ceremony 🏅</div><div class="phase phase-final">颁奖</div></div>
   </td>
   <td class="day-cell empty"></td>
 </tr>
 
-<!-- 攀岩 Sport Climbing -->
+<!-- 攀岩 -->
 <tr class="sport-cl">
-  <td class="sport-label">
-    <span class="sport-icon">🧗</span>
-    <span class="sport-name-zh">攀岩</span>
-    <span class="sport-name-en">Sport Climbing</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">🧗</span><span class="sport-name-zh">攀岩</span><span class="sport-name-en">Sport Climbing</span></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
@@ -701,64 +614,58 @@
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–11:30</div><div class="event-name">速度赛预赛</div><div class="phase phase-qual">Preliminary</div></div>
-    <div class="event-pill"><div class="time">20:00–21:00</div><div class="event-name">速度赛决赛 🏅</div><div class="phase phase-final">Final</div></div>
+    <div class="event-pill"><div class="time">09:00–11:30</div><div class="event-name">速度赛预赛 Speed Qualification</div><div class="phase phase-qual">Preliminary</div></div>
+    <div class="event-pill"><div class="time">20:00–21:00</div><div class="event-name">速度赛决赛 Speed Final 🏅</div><div class="phase phase-final">Final · 颁奖</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:30–11:30</div><div class="event-name">速度接力预赛</div><div class="phase phase-qual">Preliminary</div></div>
-    <div class="event-pill"><div class="time">20:00–21:00</div><div class="event-name">速度接力决赛 🏅</div><div class="phase phase-final">Final</div></div>
+    <div class="event-pill"><div class="time">09:30–11:30</div><div class="event-name">速度接力预赛 Relay Qualification</div><div class="phase phase-qual">Preliminary</div></div>
+    <div class="event-pill"><div class="time">20:00–21:00</div><div class="event-name">速度接力决赛 Relay Final 🏅</div><div class="phase phase-final">Final · 颁奖</div></div>
   </td>
 </tr>
 
-<!-- 台克球 Teqball -->
+<!-- 台克球 -->
 <tr class="sport-tq">
-  <td class="sport-label">
-    <span class="sport-icon">🏓</span>
-    <span class="sport-name-zh">台克球</span>
-    <span class="sport-name-en">Teqball</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">🏓</span><span class="sport-name-zh">台克球</span><span class="sport-name-en">Teqball</span></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">15:00–21:00</div><div class="event-name">男双 小组赛 + 1/4决赛</div><div class="phase phase-group">Qual + QF</div></div>
+    <div class="event-pill"><div class="time">15:00–17:30</div><div class="event-name">男双小组赛 G1–4: A1-B2/A2-B1/A3-B4/A4-B3</div><div class="phase phase-group">Qualification</div></div>
+    <div class="event-pill"><div class="time">19:00–21:00</div><div class="event-name">男双1/4决赛 G1–4: A胜1-B胜2 / A胜2-B胜1 / A败-B败</div><div class="phase phase-semi">Quarterfinals</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">15:00–18:30</div><div class="event-name">女双 小组赛 + 1/4决赛</div><div class="phase phase-group">Qual + QF</div></div>
+    <div class="event-pill"><div class="time">15:00–16:30</div><div class="event-name">女双小组赛 G1–3: A1-B3/A2-B1/A3-B2</div><div class="phase phase-group">Qualification</div></div>
+    <div class="event-pill"><div class="time">16:30–18:30</div><div class="event-name">女双1/4决赛 G1–3: A胜1-B胜2 / A胜2-B胜1 / A败-B败</div><div class="phase phase-semi">Quarterfinals</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">15:00–18:30</div><div class="event-name">混双 小组赛 + 1/4决赛</div><div class="phase phase-group">Qual + QF</div></div>
+    <div class="event-pill"><div class="time">15:00–16:30</div><div class="event-name">混双小组赛 G1–3: A1-B3/A2-B1/A3-B2</div><div class="phase phase-group">Qualification</div></div>
+    <div class="event-pill"><div class="time">16:30–18:30</div><div class="event-name">混双1/4决赛 G1–3: A胜1-B胜2 / A胜2-B胜1 / A败-B败</div><div class="phase phase-semi">Quarterfinals</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">08:00–18:00</div><div class="event-name">男/女/混双 半决赛</div><div class="phase phase-semi">SF</div></div>
-    <div class="event-pill"><div class="time">15:00–22:00</div><div class="event-name">铜牌/金牌赛 🏅</div><div class="phase phase-final">Finals</div></div>
+    <div class="event-pill"><div class="time">08:00–09:00</div><div class="event-name">男双半决赛 SF: QF胜1 vs QF胜2</div><div class="phase phase-semi">Semifinals</div></div>
+    <div class="event-pill"><div class="time">09:00–10:00</div><div class="event-name">女双半决赛 SF: QF胜1 vs QF胜2</div><div class="phase phase-semi">Semifinals</div></div>
+    <div class="event-pill"><div class="time">10:00–11:00</div><div class="event-name">混双半决赛 SF: QF胜1 vs QF胜2</div><div class="phase phase-semi">Semifinals</div></div>
+    <div class="event-pill"><div class="time">11:00–13:00</div><div class="event-name">男双/女双 败者组半决赛</div><div class="phase phase-semi">Consolation SF</div></div>
+    <div class="event-pill"><div class="time">14:00–15:00</div><div class="event-name">混双 败者组半决赛</div><div class="phase phase-semi">Consolation SF</div></div>
+    <div class="event-pill"><div class="time">15:00–18:00</div><div class="event-name">男/女/混双 铜牌赛</div><div class="phase phase-bronze">Bronze Medals</div></div>
+    <div class="event-pill"><div class="time">19:00–22:00</div><div class="event-name">男/女/混双 金牌赛 🏅</div><div class="phase phase-final">Gold Medals · 颁奖</div></div>
   </td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
 </tr>
 
-<!-- 游跑两项 Aquathlon -->
+<!-- 游跑两项 -->
 <tr class="sport-aq">
-  <td class="sport-label">
-    <span class="sport-icon">🏊</span>
-    <span class="sport-name-zh">游跑两项</span>
-    <span class="sport-name-en">Aquathlon</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">🏊</span><span class="sport-name-zh">游跑两项</span><span class="sport-name-en">Aquathlon</span></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">08:00–08:45</div><div class="event-name">男子个人</div><div class="phase phase-final">决赛</div></div>
-    <div class="event-pill"><div class="time">09:30–10:20</div><div class="event-name">女子个人</div><div class="phase phase-final">决赛</div></div>
+    <div class="event-pill"><div class="time">08:00–08:45</div><div class="event-name">男子个人 Men's Individual 🏅</div><div class="phase phase-final">决赛 Final</div></div>
+    <div class="event-pill"><div class="time">09:30–10:20</div><div class="event-name">女子个人 Women's Individual 🏅</div><div class="phase phase-final">决赛 Final</div></div>
   </td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">08:00–09:15</div><div class="event-name">混合接力 🏅</div><div class="phase phase-final">决赛</div></div>
+    <div class="event-pill"><div class="time">08:00–09:15</div><div class="event-name">混合接力 Mixed Relay 🏅</div><div class="phase phase-final">决赛 Final</div></div>
   </td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
@@ -766,51 +673,42 @@
   <td class="day-cell empty"></td>
 </tr>
 
-<!-- 沙滩排球 Beach Volleyball -->
+<!-- 沙滩排球 -->
 <tr class="sport-bv">
-  <td class="sport-label">
-    <span class="sport-icon">🏐</span>
-    <span class="sport-name-zh">沙滩排球</span>
-    <span class="sport-name-en">Beach Volleyball</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">🏐</span><span class="sport-name-zh">沙滩排球</span><span class="sport-name-en">Beach Volleyball</span></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">08:00–19:00</div><div class="event-name">男/女 各组 (5球场)</div><div class="phase phase-group">预赛第1天</div></div>
+    <div class="event-pill"><div class="time">08:00–19:00</div><div class="event-name">男A–H组 · 女N–T组 (5球场)</div><div class="phase phase-group">预赛 Day 1（开赛仪式 08:30）</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">08:00–19:00</div><div class="event-name">男/女 各组 (5球场)</div><div class="phase phase-group">预赛第2天</div></div>
+    <div class="event-pill"><div class="time">08:00–19:00</div><div class="event-name">男A–M组 · 女N–Z组 (5球场)</div><div class="phase phase-group">预赛 Day 2</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">08:00–19:00</div><div class="event-name">男/女 各组 (5球场)</div><div class="phase phase-group">预赛第3天</div></div>
+    <div class="event-pill"><div class="time">08:00–19:00</div><div class="event-name">男A–H组 · 女N–Z组 (5球场)</div><div class="phase phase-group">预赛 Day 3</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">08:00–18:10</div><div class="event-name">男/女 各组 + 抽签</div><div class="phase phase-group">预赛第4天</div></div>
+    <div class="event-pill"><div class="time">08:00–18:10</div><div class="event-name">男A–M组 · 女N–Z组 (5球场) 末轮</div><div class="phase phase-group">预赛 Day 4</div></div>
+    <div class="event-pill"><div class="time">18:10</div><div class="event-name">决赛阶段抽签 Draw</div><div class="phase phase-group">Draw for Final Phase</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">08:00–18:00</div><div class="event-name">决赛阶段 32强</div><div class="phase phase-semi">Round of 32</div></div>
+    <div class="event-pill"><div class="time">08:00–18:00</div><div class="event-name">男/女 决赛32强 (5球场)</div><div class="phase phase-semi">Final Phase – Round of 32</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–19:00</div><div class="event-name">决赛阶段 16强→8强</div><div class="phase phase-semi">R16 · QF</div></div>
+    <div class="event-pill"><div class="time">09:00–17:00</div><div class="event-name">男/女 16强</div><div class="phase phase-semi">Round of 16</div></div>
+    <div class="event-pill"><div class="time">18:00–19:00</div><div class="event-name">男/女 8强（四分之一决赛）</div><div class="phase phase-semi">Quarterfinals</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">09:00–18:00</div><div class="event-name">半决赛 → 决赛 🏅 颁奖</div><div class="phase phase-final">SF · Finals</div></div>
+    <div class="event-pill"><div class="time">09:00</div><div class="event-name">男/女 四分之一决赛（续）</div><div class="phase phase-semi">Quarterfinals</div></div>
+    <div class="event-pill"><div class="time">15:00–16:00</div><div class="event-name">男/女 半决赛</div><div class="phase phase-semi">Semifinals</div></div>
+    <div class="event-pill"><div class="time">17:00–18:00</div><div class="event-name">男/女 决赛 🏅</div><div class="phase phase-final">Finals</div></div>
+    <div class="event-pill"><div class="time">19:00</div><div class="event-name">颁奖仪式 Victory Ceremony 🏅</div><div class="phase phase-final">颁奖</div></div>
   </td>
 </tr>
 
-<!-- 沙滩摔跤 Beach Wrestling -->
+<!-- 沙滩摔跤 -->
 <tr class="sport-wr">
-  <td class="sport-label">
-    <span class="sport-icon">🤼</span>
-    <span class="sport-name-zh">沙滩摔跤</span>
-    <span class="sport-name-en">Beach Wrestling</span>
-  </td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
-  <td class="day-cell empty"></td>
+  <td class="sport-label"><span class="sport-icon">💪</span><span class="sport-name-zh">沙滩摔跤</span><span class="sport-name-en">Beach Wrestling</span></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
@@ -819,12 +717,12 @@
   <td class="day-cell empty"></td>
   <td class="day-cell empty"></td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">10:00–12:00</div><div class="event-name">男女各级别 (8项)</div><div class="phase phase-group">循环赛第1轮</div></div>
-    <div class="event-pill"><div class="time">15:00–17:00</div><div class="event-name">男女各级别</div><div class="phase phase-group">循环赛第2轮</div></div>
+    <div class="event-pill"><div class="time">10:00–12:00</div><div class="event-name">男70/80/90/+90kg · 女50/60/70/+70kg（全8级别）</div><div class="phase phase-group">循环赛第1轮 Round 1</div></div>
+    <div class="event-pill"><div class="time">15:00–17:00</div><div class="event-name">男70/80/90/+90kg · 女50/60/70/+70kg（全8级别）</div><div class="phase phase-group">循环赛第2轮 Round 2</div></div>
   </td>
   <td class="day-cell">
-    <div class="event-pill"><div class="time">10:00–12:00</div><div class="event-name">男女各级别</div><div class="phase phase-group">循环赛第3轮</div></div>
-    <div class="event-pill"><div class="time">15:00–18:00</div><div class="event-name">男女各级别 🏅</div><div class="phase phase-final">淘汰赛·决赛</div></div>
+    <div class="event-pill"><div class="time">10:00–12:00</div><div class="event-name">男70/80/90/+90kg · 女50/60/70/+70kg（全8级别）</div><div class="phase phase-group">循环赛第3轮 Round 3</div></div>
+    <div class="event-pill"><div class="time">15:00–18:00</div><div class="event-name">男70/80/90/+90kg · 女50/60/70/+70kg（全8级别）🏅</div><div class="phase phase-final">淘汰赛 · 决赛 · 颁奖</div></div>
   </td>
 </tr>
 
@@ -833,7 +731,7 @@
 </div>
 
 <div class="footer">
-  竞赛单元日程 · 2026年4月18–29日 &nbsp;|&nbsp; 🏅 = 颁奖仪式 Victory Ceremony
+  竞赛单元总日程 · 2026年4月21–29日 &nbsp;|&nbsp; 🏅 = 颁奖仪式 Victory Ceremony &nbsp;|&nbsp; 共15个竞赛项目 · 9个比赛日
 </div>
 
 </body>
