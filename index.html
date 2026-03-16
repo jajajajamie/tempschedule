@@ -2,909 +2,635 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>竞赛单元日程 Competition Schedule</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>竞赛总日程 Competition Schedule</title>
 <style>
-:root {
-  --bg: #070b14;
-  --surface: #0d1526;
-  --surface2: #111d35;
-  --border: rgba(255,255,255,0.08);
-  --text: #e8edf5;
-  --text-muted: #6b7fa0;
-  --accent: #00e5ff;
-  --gold: #ffd700;
-  --radius: 8px;
-}
+/* ── RESET & FONT ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --font: "Microsoft YaHei","微软雅黑","PingFang SC","苹方","Helvetica Neue",Arial,sans-serif;
+  --bg:      #06090f;
+  --bg2:     #0b1120;
+  --bg3:     #0f1828;
+  --border:  rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text:    #dde4f0;
+  --muted:   #576070;
+  --accent:  #00e5ff;
+  --r: 6px;
+  --sidebar-w: 210px;
+  --topbar-h: 52px;
+}
+html { font-family: var(--font); }
+body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Noto Sans SC', sans-serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+/* ═══════════════════════════════════════
+   LAYOUT — desktop: persistent sidebar
+   mobile:  bottom nav + drawer overlay
+═══════════════════════════════════════ */
 
-/* ── HEADER ── */
-header {
-  padding: 28px 32px 20px;
-  background: linear-gradient(135deg, #070b14 0%, #0d1a30 100%);
-  border-bottom: 1px solid var(--border);
-  position: relative;
-  overflow: hidden;
-}
-header::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse 60% 120% at 80% 50%, rgba(0,229,255,0.04) 0%, transparent 70%);
-  pointer-events: none;
-}
-.header-top {
-  display: flex;
-  align-items: flex-end;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-.header-title-cn {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(28px, 5vw, 52px);
-  letter-spacing: 4px;
-  color: var(--accent);
-  line-height: 1;
-  text-shadow: 0 0 30px rgba(0,229,255,0.3);
-}
-.header-title-en {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(16px, 2.5vw, 26px);
-  letter-spacing: 3px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  line-height: 1;
-}
-.header-meta {
-  margin-top: 10px;
-  font-family: 'Space Mono', monospace;
-  font-size: 12px;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-}
-.view-toggle {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-}
-.toggle-btn {
-  padding: 8px 20px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 1px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: all 0.2s;
-  text-transform: uppercase;
-}
-.toggle-btn.active {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: rgba(0,229,255,0.08);
-}
-.toggle-btn:hover:not(.active) {
-  border-color: rgba(255,255,255,0.2);
-  color: var(--text);
-}
-
-/* ── DESKTOP TABLE VIEW ── */
-#desktop-view {
-  padding: 0 0 40px;
-}
-.table-wrap {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.schedule-table {
-  border-collapse: separate;
-  border-spacing: 0;
-  width: max-content;
-  min-width: 100%;
-}
-.schedule-table th, .schedule-table td {
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-
-/* Sticky header row */
-.schedule-table thead tr {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-}
-.schedule-table thead th {
-  background: #0a1220;
-  padding: 0;
-  min-width: 110px;
-  vertical-align: bottom;
-}
-.schedule-table thead th.sport-label-header {
-  min-width: 180px;
-  width: 180px;
-  position: sticky;
-  left: 0;
-  z-index: 30;
-  background: #0a1220;
-  padding: 16px 16px;
-  text-align: left;
-}
-.date-header {
-  padding: 12px 10px 10px;
-  text-align: center;
-}
-.date-header .day-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 2px;
-  color: var(--text);
-  line-height: 1;
-}
-.date-header .day-week {
-  font-family: 'Space Mono', monospace;
-  font-size: 9px;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  margin-top: 2px;
-}
-.date-header .day-cn {
-  font-size: 10px;
-  color: var(--text-muted);
-  margin-top: 1px;
-}
-
-/* Sport rows */
-.sport-row td {
-  vertical-align: top;
-  padding: 0;
-  background: var(--bg);
-  min-height: 60px;
-}
-.sport-row:hover td {
-  background: rgba(255,255,255,0.015);
-}
-.sport-row td.sport-label {
-  position: sticky;
-  left: 0;
-  z-index: 10;
-  background: var(--surface);
-  padding: 12px 14px;
-  min-width: 180px;
-  width: 180px;
-  cursor: pointer;
-  transition: background 0.2s;
-  border-right: 2px solid;
-}
-.sport-row td.sport-label:hover {
-  background: var(--surface2);
-}
-.sport-label-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.sport-name-cn {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.2;
-}
-.sport-name-en {
-  font-size: 10px;
-  color: var(--text-muted);
-  font-family: 'Space Mono', monospace;
-  letter-spacing: 0.5px;
-}
-.sport-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  margin-top: 4px;
-  flex-shrink: 0;
-}
-
-/* Cell content */
-.cell-inner {
-  padding: 6px 8px;
-  min-height: 52px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.event-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 7px;
-  border-radius: 3px;
-  font-size: 10px;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
-  cursor: pointer;
-  transition: opacity 0.15s, transform 0.15s;
-  line-height: 1.3;
-}
-.event-pill:hover {
-  opacity: 0.85;
-  transform: scale(1.02);
-}
-.pill-phase {
-  font-size: 9px;
-  opacity: 0.7;
-  margin-left: 2px;
-}
-
-/* Phase color coding */
-.phase-final   { background: rgba(255,215,0,0.18);   color: #ffd700; border-left: 2px solid #ffd700; }
-.phase-semi    { background: rgba(251,146,60,0.18);   color: #fb923c; border-left: 2px solid #fb923c; }
-.phase-bronze  { background: rgba(180,120,60,0.18);   color: #b4783c; border-left: 2px solid #b4783c; }
-.phase-qual    { background: rgba(132,204,22,0.18);   color: #84cc16; border-left: 2px solid #84cc16; }
-.phase-group   { background: rgba(148,163,184,0.12);  color: #94a3b8; border-left: 2px solid #475569; }
-.phase-default { background: rgba(148,163,184,0.10);  color: #94a3b8; border-left: 2px solid #475569; }
-
-/* Medal dot */
-.medal-dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: var(--gold);
-  flex-shrink: 0;
-}
-
-/* empty cell */
-.cell-empty {
-  min-height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.cell-dash {
-  width: 16px;
-  height: 1px;
-  background: var(--border);
-}
-
-/* ── MOBILE CARD VIEW ── */
-#mobile-view {
-  display: none;
-  padding: 16px;
-}
-.mobile-day {
-  margin-bottom: 24px;
-}
-.mobile-day-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  background: var(--surface);
-  border-radius: var(--radius) var(--radius) 0 0;
-  border-bottom: 1px solid var(--border);
-}
-.mobile-day-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px;
-  color: var(--accent);
-  line-height: 1;
-}
-.mobile-day-info {
-  display: flex;
-  flex-direction: column;
-}
-.mobile-day-week {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  color: var(--text-muted);
-}
-.mobile-sport-card {
-  background: var(--surface);
-  border-left: 3px solid;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--border);
-  cursor: pointer;
-  transition: background 0.15s;
-}
-.mobile-sport-card:last-child {
-  border-radius: 0 0 var(--radius) var(--radius);
-}
-.mobile-sport-card:hover {
-  background: var(--surface2);
-}
-.mobile-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 4px;
-}
-.mobile-sport-name {
-  font-size: 13px;
-  font-weight: 700;
-}
-.mobile-sport-sub {
-  font-size: 10px;
-  color: var(--text-muted);
-  font-family: 'Space Mono', monospace;
-}
-.mobile-events {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 6px;
-}
-.tap-hint {
-  font-size: 10px;
-  color: var(--text-muted);
-  font-family: 'Space Mono', monospace;
-}
-
-/* ── MODAL ── */
-.modal-overlay {
-  display: none;
+/* Sidebar */
+#sidebar {
   position: fixed;
-  inset: 0;
-  background: rgba(4,8,20,0.88);
-  z-index: 100;
-  overflow-y: auto;
-  padding: 20px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  animation: fadeIn 0.2s ease;
-}
-.modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
-@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
-.modal-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  width: 100%;
-  max-width: 900px;
-  animation: slideUp 0.25s ease;
-  overflow: hidden;
-}
-@keyframes slideUp { from { transform: translateY(20px); opacity:0 } to { transform:translateY(0); opacity:1 } }
-.modal-header {
-  padding: 20px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-}
-.modal-title {
+  top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 3px;
-}
-.modal-title-cn {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px;
-  letter-spacing: 3px;
-  line-height: 1;
-}
-.modal-title-en {
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-}
-.modal-close {
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  font-size: 18px;
-  cursor: pointer;
-  padding: 6px 12px;
-  border-radius: 6px;
-  transition: all 0.15s;
-  line-height: 1;
-}
-.modal-close:hover {
-  border-color: rgba(255,255,255,0.3);
-  color: var(--text);
-}
-.modal-body {
-  padding: 20px 24px;
-  overflow-x: auto;
-}
-/* Day tabs in modal */
-.modal-day-tabs {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-.day-tab {
-  padding: 6px 14px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  background: transparent;
-  color: var(--text-muted);
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-.day-tab:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
-.day-tab.active { border-color: var(--sport-color, var(--accent)); color: var(--sport-color, var(--accent)); background: rgba(0,229,255,0.06); }
-/* Detail table */
-.detail-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-  min-width: 400px;
-}
-.detail-table th {
-  text-align: left;
-  padding: 8px 12px;
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.5px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
-}
-.detail-table td {
-  padding: 9px 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  vertical-align: top;
-  color: var(--text);
-  line-height: 1.4;
-}
-.detail-table tr:last-child td { border-bottom: none; }
-.detail-table tr:hover td { background: rgba(255,255,255,0.02); }
-.detail-table td:first-child {
-  font-family: 'Space Mono', monospace;
-  font-size: 12px;
-  color: var(--accent);
-  white-space: nowrap;
-  width: 80px;
-}
-.phase-badge {
-  display: inline-block;
-  padding: 2px 7px;
-  border-radius: 3px;
-  font-size: 10px;
-  font-family: 'Space Mono', monospace;
-}
-/* no data */
-.no-data {
-  text-align: center;
-  padding: 40px;
-  color: var(--text-muted);
-  font-size: 13px;
+  z-index: 40;
+  transition: transform 0.28s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
 }
 
-/* ── LEGEND ── */
-.legend-row {
+/* Main shifts right when sidebar visible */
+#main {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
   display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding: 12px 20px;
+  flex-direction: column;
+  transition: margin-left 0.28s cubic-bezier(.4,0,.2,1);
+}
+body.sidebar-hidden #sidebar { transform: translateX(-100%); }
+body.sidebar-hidden #main    { margin-left: 0; }
+
+/* Overlay (mobile only — desktop never shows it) */
+#overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 35;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* ── Sidebar content ── */
+.sb-logo {
+  padding: 18px 16px 14px;
   border-bottom: 1px solid var(--border);
-  align-items: center;
+  flex-shrink: 0;
 }
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  color: var(--text-muted);
+.sb-logo-cn  { font-size: 15px; font-weight: 700; color: var(--accent); letter-spacing: 2px; line-height: 1.2; }
+.sb-logo-en  { font-size: 9px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+.sb-logo-sub { font-size: 10px; color: var(--muted); margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
+
+.sb-section  { padding: 10px 16px 4px; font-size: 9px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; flex-shrink: 0; }
+
+.sb-scroll {
+  overflow-y: auto; flex: 1; padding: 0 8px 20px;
+  scrollbar-width: thin; scrollbar-color: var(--border2) transparent;
 }
-.legend-pill {
-  width: 24px; height: 8px;
-  border-radius: 2px;
-  border-left: 2px solid;
+.sb-scroll::-webkit-scrollbar { width: 3px; }
+.sb-scroll::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+.nav-overview {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 12px; border-radius: var(--r);
+  border: 1px solid var(--border);
+  cursor: pointer; margin: 8px 0 6px;
+  transition: all 0.15s;
+}
+.nav-overview:hover { background: rgba(255,255,255,0.04); }
+.nav-overview.active { background: rgba(0,229,255,0.08); border-color: rgba(0,229,255,0.3); }
+.nav-overview.active .nov-cn { color: var(--accent); }
+.nov-icon { font-size: 13px; }
+.nov-cn { font-size: 13px; font-weight: 600; color: var(--text); }
+.nov-en { font-size: 9px; color: var(--muted); margin-top: 1px; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; border-radius: var(--r);
+  cursor: pointer; margin-bottom: 1px;
+  transition: background 0.12s;
+  overflow: hidden;
+}
+.nav-item:hover { background: rgba(255,255,255,0.05); }
+.nav-item.active { background: rgba(255,255,255,0.07); }
+.nav-item.active .ni-cn { color: var(--accent); }
+.ni-dot  { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.ni-cn   { font-size: 12px; font-weight: 500; }
+.ni-en   { font-size: 9px; color: var(--muted); margin-top: 1px; }
+
+/* ── Topbar ── */
+#topbar {
+  height: var(--topbar-h);
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 16px; gap: 10px;
+  flex-shrink: 0;
+  position: sticky; top: 0; z-index: 25;
+}
+.tb-menu {
+  background: none; border: 1px solid var(--border);
+  color: var(--muted); padding: 6px 9px; border-radius: 5px;
+  cursor: pointer; font-size: 14px; line-height: 1;
+  transition: all 0.15s; flex-shrink: 0;
+  font-family: var(--font);
+}
+.tb-menu:hover { border-color: var(--border2); color: var(--text); }
+.tb-title { font-size: 14px; font-weight: 600; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tb-sub   { font-size: 11px; color: var(--muted); flex-shrink: 0; display: none; }
+.pdf-btn  {
+  display: flex; align-items: center; gap: 5px;
+  padding: 6px 14px; background: rgba(0,229,255,0.08);
+  border: 1px solid rgba(0,229,255,0.35); color: var(--accent);
+  font-size: 11px; font-weight: 500; cursor: pointer;
+  border-radius: 5px; transition: all 0.18s;
+  white-space: nowrap; flex-shrink: 0;
+  font-family: var(--font);
+}
+.pdf-btn:hover { background: rgba(0,229,255,0.16); }
+
+/* ── Content ── */
+#content { flex: 1; overflow-y: auto; overflow-x: hidden; }
+
+/* ═══════════════════════════════════════
+   OVERVIEW PAGE
+═══════════════════════════════════════ */
+.ov-hdr  { padding: 22px 24px 14px; border-bottom: 1px solid var(--border); }
+.ov-cn   { font-size: 26px; font-weight: 700; color: var(--accent); letter-spacing: 2px; }
+.ov-en   { font-size: 12px; color: var(--muted); letter-spacing: 1px; margin-top: 3px; text-transform: uppercase; }
+
+.legend  {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+  padding: 10px 24px; border-bottom: 1px solid var(--border);
+  font-size: 11px; color: var(--muted);
+}
+.leg-item { display: flex; align-items: center; gap: 4px; }
+.leg-sw   { width: 16px; height: 6px; border-radius: 2px; border-left: 2px solid; }
+.leg-tip  { margin-left: auto; font-size: 10px; color: var(--accent); opacity: 0.7; }
+
+/* Scrollable table */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.sch-table  { border-collapse: separate; border-spacing: 0; width: max-content; min-width: 100%; }
+.sch-table th, .sch-table td { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.sch-table thead tr { position: sticky; top: 0; z-index: 12; }
+.sch-table thead th { background: #090d1a; padding: 0; }
+th.th-sport {
+  min-width: 130px; width: 130px; position: sticky; left: 0; z-index: 18;
+  background: #090d1a; padding: 12px 12px; text-align: left;
+  font-size: 9px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase;
+}
+.th-date { min-width: 108px; text-align: center; padding: 9px 5px; }
+.th-date .td-tag { font-size: 9px; color: var(--muted); letter-spacing: 1px; }
+.th-date .td-num { font-size: 18px; font-weight: 700; color: var(--text); line-height: 1.1; }
+.th-date .td-cn  { font-size: 10px; color: var(--muted); margin-top: 1px; }
+
+.sport-row td  { background: var(--bg); vertical-align: top; }
+.sport-row:hover td { background: rgba(255,255,255,0.015); }
+td.td-sport {
+  position: sticky; left: 0; z-index: 8;
+  background: var(--bg3); min-width: 130px; width: 130px;
+  padding: 9px 12px; cursor: pointer;
+  border-right: 2px solid; transition: background 0.12s;
+}
+td.td-sport:hover { background: rgba(255,255,255,0.04); }
+.sp-cn2 { font-size: 12px; font-weight: 600; }
+.sp-en2 { font-size: 9px; color: var(--muted); margin-top: 2px; }
+.sp-dot2{ width: 5px; height: 5px; border-radius: 50%; margin-top: 4px; }
+
+td.td-cell { cursor: pointer; transition: background 0.1s; }
+td.td-cell:hover { background: rgba(255,255,255,0.04) !important; }
+.ci { padding: 5px 7px; min-height: 46px; display: flex; flex-direction: column; gap: 3px; }
+.pill {
+  display: block; padding: 2px 6px; border-radius: 2px; font-size: 9px; font-weight: 500;
+  border-left: 2px solid; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.p-final { background: rgba(251,191,36,.14); color: #fbbf24; border-left-color: #fbbf24; }
+.p-semi  { background: rgba(251,146,60,.14); color: #fb923c; border-left-color: #fb923c; }
+.p-qual  { background: rgba(132,204,22,.14); color: #84cc16; border-left-color: #84cc16; }
+.p-group { background: rgba(90,106,136,.16); color: #94a3b8; border-left-color: #475569; }
+.p-other { background: rgba(90,106,136,.12); color: #7a8fab; border-left-color: #394a62; }
+.ci-time { font-size: 9px; color: var(--muted); margin-top: 1px; }
+.td-empty { min-height: 46px; display: flex; align-items: center; justify-content: center; }
+.td-dash  { width: 12px; height: 1px; background: rgba(255,255,255,0.06); }
+
+/* Sport cards grid */
+.cards-sec   { padding: 18px 24px 36px; }
+.cards-title { font-size: 10px; font-weight: 600; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+.cards-grid  { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px,1fr)); gap: 9px; }
+.sport-card  {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-left: 3px solid; border-radius: var(--r);
+  padding: 12px 13px 11px; cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  position: relative; overflow: hidden;
+}
+.sport-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,.32); background: var(--bg2); }
+.sc-cn2 { font-size: 13px; font-weight: 700; }
+.sc-en2 { font-size: 9px; color: var(--muted); margin-top: 2px; }
+.sc-pips{ display: flex; flex-wrap: wrap; gap: 2px; margin-top: 7px; }
+.sc-pip { font-size: 9px; padding: 1px 4px; border-radius: 2px; background: rgba(255,255,255,0.07); color: var(--muted); }
+.sc-arr { position: absolute; right: 10px; top: 10px; font-size: 11px; color: var(--muted); opacity: 0; transition: opacity .15s; }
+.sport-card:hover .sc-arr { opacity: 1; }
+
+/* ═══════════════════════════════════════
+   SPORT DETAIL PAGE
+═══════════════════════════════════════ */
+#pg-sport { display: none; }
+
+.sp-hdr {
+  padding: 20px 24px 16px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.sp-bar  { width: 4px; border-radius: 2px; min-height: 40px; align-self: stretch; flex-shrink: 0; }
+.sp-ttl-cn { font-size: 24px; font-weight: 700; line-height: 1.15; }
+.sp-ttl-en { font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-top: 3px; text-transform: uppercase; }
+.sp-venue  { font-size: 11px; color: var(--muted); margin-top: 5px; }
+
+/* Day chips strip */
+.day-strip {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+  padding: 14px 24px; border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.ds-label { font-size: 9px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-right: 4px; flex-shrink: 0; }
+.day-chip {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 5px 9px; border-radius: 5px; border: 1px solid var(--border);
+  min-width: 48px; transition: all 0.15s;
+}
+.day-chip.on  { cursor: pointer; }
+.day-chip.on:hover { filter: brightness(1.15); transform: translateY(-1px); }
+.day-chip.on.sel { box-shadow: 0 0 0 2px rgba(255,255,255,0.35); transform: translateY(-1px); }
+.day-chip.off { opacity: 0.25; cursor: default; }
+.dc-num { font-size: 11px; font-weight: 700; line-height: 1; }
+.dc-cn  { font-size: 9px;  opacity: 0.75; margin-top: 1px; }
+.dc-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.5); margin-top: 3px; }
+.day-chip.off .dc-dot { background: var(--muted); }
+
+/* Schedule blocks */
+.sp-body   { padding: 18px 24px 40px; }
+.day-sec   { display: none; }
+.day-sec.vis { display: block; }
+.ds-hdr    { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.ds-date   { font-size: 20px; font-weight: 700; }
+.ds-info   { font-size: 11px; color: var(--muted); }
+.ds-block  {
+  background: var(--bg3); border-radius: 8px;
+  border: 1px solid var(--border); border-left: 3px solid;
+  padding: 14px 18px; font-size: 13px; line-height: 1.9;
+  white-space: pre-wrap; word-break: break-word;
+}
+
+/* ═══════════════════════════════════════
+   BOTTOM NAV — mobile only
+═══════════════════════════════════════ */
+#bottom-nav { display: none; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media (min-width: 769px) {
+  /* Desktop: sidebar always in-flow, never overlaps */
+  #overlay { display: none !important; }
+  .tb-sub  { display: block; }
 }
 
 @media (max-width: 768px) {
-  #desktop-view { display: none !important; }
-  #mobile-view { display: block !important; }
-  .view-toggle { display: none; }
+  /* Mobile: sidebar is off-screen by default */
+  :root { --topbar-h: 50px; }
+
+  #sidebar {
+    transform: translateX(-100%);
+    box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+  }
+  #sidebar.mob-open { transform: translateX(0); }
+
+  /* Main never shifts on mobile — always full width */
+  #main { margin-left: 0 !important; }
+
+  /* Overlay shows behind drawer */
+  #overlay { display: block; opacity: 0; pointer-events: none; transition: opacity 0.28s; }
+  #overlay.vis { opacity: 1; pointer-events: auto; }
+
+  /* Tighter padding on mobile */
+  .ov-hdr, .sp-hdr, .day-strip, .sp-body, .cards-sec, .legend { padding-left: 14px; padding-right: 14px; }
+  .th-date { min-width: 90px; }
+  th.th-sport, td.td-sport { min-width: 110px; width: 110px; }
+  .ov-cn { font-size: 20px; }
+
+  /* Sport detail: smaller chips */
+  .day-chip { min-width: 42px; padding: 4px 6px; }
+  .dc-num  { font-size: 10px; }
+  .sp-ttl-cn { font-size: 20px; }
+  .ds-block  { font-size: 12px; line-height: 1.75; }
+}
+
+@media (max-width: 480px) {
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
+  .th-date { min-width: 80px; }
+  th.th-sport, td.td-sport { min-width: 100px; width: 100px; }
+}
+
+/* ── PRINT ── */
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  #sidebar, #topbar, #overlay, #bottom-nav, .cards-sec, .legend .leg-tip, .pdf-btn { display: none !important; }
+  body.sidebar-hidden #main, #main { margin-left: 0 !important; }
+  #content { overflow: visible !important; }
+  #pg-sport { display: none !important; }
+  #pg-overview { display: block !important; }
+  .table-wrap { overflow: visible !important; }
+  .sch-table { width: 100% !important; }
+  @page { size: A3 landscape; margin: 5mm; }
+  .sch-table th, .sch-table td { font-size: 7px !important; }
+  .th-date .td-num { font-size: 11px !important; }
+  .ci { padding: 3px 4px !important; min-height: 0 !important; }
+  .td-empty { min-height: 14px !important; }
+  th.th-sport, td.td-sport { min-width: 75px !important; width: 75px !important; }
+  .th-date { min-width: 68px !important; }
 }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="header-top">
-    <div>
-      <div class="header-title-cn">竞赛总日程</div>
-      <div class="header-title-en">Competition Schedule</div>
+<!-- Overlay (mobile drawer backdrop) -->
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ── SIDEBAR ── -->
+<nav id="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-cn">竞赛总日程</div>
+    <div class="sb-logo-en">Competition Schedule</div>
+    <div class="sb-logo-sub">三亚 · 2026 · APR 21–30</div>
+  </div>
+  <div style="padding:4px 8px 0">
+    <div class="nav-overview active" id="nav-ov" onclick="showOverview()">
+      <span class="nov-icon">⊞</span>
+      <div><div class="nov-cn">总览</div><div class="nov-en">Overview</div></div>
     </div>
   </div>
-  <div class="header-meta">2026 · APR 19 – 30 · 15 SPORTS · SANYA</div>
-  <div class="view-toggle">
-    <button class="toggle-btn active" onclick="setView('grid')">总览 Grid</button>
-    <button class="toggle-btn" onclick="setView('list')">列表 List</button>
+  <div class="sb-section">各项目赛程</div>
+  <div class="sb-scroll" id="sbNav"></div>
+</nav>
+
+<!-- ── MAIN ── -->
+<div id="main">
+
+  <!-- Topbar -->
+  <div id="topbar">
+    <button class="tb-menu" onclick="toggleSidebar()" aria-label="菜单">☰</button>
+    <div class="tb-title" id="tbTitle">竞赛总日程</div>
+    <div class="tb-sub"  id="tbSub">2026 · 三亚</div>
+    <button class="pdf-btn" onclick="doPrint()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      导出 PDF
+    </button>
   </div>
-</header>
 
-<!-- Legend -->
-<div class="legend-row">
-  <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:1px;margin-right:4px;">PHASE:</div>
-  <div class="legend-item"><div class="legend-pill phase-final" style="border-left-color:#ffd700"></div>决赛 Final</div>
-  <div class="legend-item"><div class="legend-pill phase-semi" style="border-left-color:#fb923c"></div>半决赛 Semi</div>
-  <div class="legend-item"><div class="legend-pill phase-qual" style="border-left-color:#84cc16"></div>预赛 Qual</div>
-  <div class="legend-item"><div class="legend-pill phase-group" style="border-left-color:#475569"></div>小组赛 Group</div>
-  <div class="legend-item"><span style="color:var(--gold);font-size:14px;">●</span> 金牌项目 Gold Medal</div>
-  <div class="legend-item" style="margin-left:auto;font-size:10px;font-family:'Space Mono',monospace;cursor:pointer;color:var(--accent)" onclick="document.querySelector('.hint-tip').style.display='none'">点击赛事名称查看详细赛程 ↗</div>
-</div>
+  <!-- Scrollable content -->
+  <div id="content">
 
-<!-- DESKTOP GRID VIEW -->
-<div id="desktop-view">
-<div class="table-wrap">
-<table class="schedule-table" id="mainTable">
-<thead id="tableHead"></thead>
-<tbody id="tableBody"></tbody>
-</table>
-</div>
-</div>
+    <!-- ── OVERVIEW ── -->
+    <div id="pg-overview">
 
-<!-- MOBILE CARD VIEW -->
-<div id="mobile-view" id="mobileView"></div>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
-  <div class="modal-box" id="modalBox">
-    <div class="modal-header">
-      <div class="modal-title">
-        <div class="modal-title-cn" id="modalTitleCN"></div>
-        <div class="modal-title-en" id="modalTitleEN"></div>
+      <div class="ov-hdr">
+        <div class="ov-cn">竞赛总日程</div>
+        <div class="ov-en">Competition Schedule · Sanya 2026</div>
       </div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+
+      <div class="legend">
+        <span style="font-size:9px;color:var(--muted);letter-spacing:1px;margin-right:4px">阶段:</span>
+        <div class="leg-item"><div class="leg-sw" style="background:rgba(251,191,36,.18);border-left-color:#fbbf24"></div>决赛</div>
+        <div class="leg-item"><div class="leg-sw" style="background:rgba(251,146,60,.18);border-left-color:#fb923c"></div>半决赛</div>
+        <div class="leg-item"><div class="leg-sw" style="background:rgba(132,204,22,.18);border-left-color:#84cc16"></div>预赛</div>
+        <div class="leg-item"><div class="leg-sw" style="background:rgba(90,106,136,.18);border-left-color:#475569"></div>小组赛</div>
+        <span class="leg-tip">点击项目名称查看详细赛程 →</span>
+      </div>
+
+      <div class="table-wrap">
+        <table class="sch-table">
+          <thead id="ovTHead"></thead>
+          <tbody id="ovTBody"></tbody>
+        </table>
+      </div>
+
+      <div class="cards-sec">
+        <div class="cards-title">所有项目 · All Sports</div>
+        <div class="cards-grid" id="cardsGrid"></div>
+      </div>
     </div>
-    <div class="modal-body">
-      <div class="modal-day-tabs" id="modalDayTabs"></div>
-      <div id="modalContent"></div>
+
+    <!-- ── SPORT DETAIL ── -->
+    <div id="pg-sport">
+      <div class="sp-hdr">
+        <div class="sp-bar" id="spBar"></div>
+        <div>
+          <div class="sp-ttl-cn" id="spCN"></div>
+          <div class="sp-ttl-en" id="spEN"></div>
+          <div class="sp-venue"  id="spVenue"></div>
+        </div>
+      </div>
+      <div class="day-strip" id="dayStrip"></div>
+      <div class="sp-body"  id="spBody"></div>
     </div>
-  </div>
-</div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
 
 <script>
-const RAW = {"sports":{"公开水域游泳 Open Water Swimming":{"cn":"公开水域游泳","en":"Open Water Swimming","color":"#00e5ff","headers":[{"en":"Date","cn":"日期"},{"en":"Time","cn":"时间"},{"en":"Event","cn":"比赛项目"},{"en":"Phase","cn":"阶段"}],"by_date":{"2026-04-25":[["2026-04-25","9:00-11:30","Women's 5km / 女子5公里","Final / 决赛"]],"2026-04-26":[["2026-04-26","9:00-11:30","Men's 5km / 男子5公里","Final / 决赛"]],"2026-04-27":[["2026-04-27","9:00-11:30","Mixed 4*1.5km Relay / 男女混合：4*1.5公里接力","Final / 决赛"]]},"dates":["2026-04-25","2026-04-26","2026-04-27"]},"水球 Water Polo":{"cn":"水球","en":"Water Polo","color":"#3b82f6","headers":[{"en":"Date","cn":"日期"},{"en":"Time","cn":"时间"},{"en":"Category","cn":"组别（男/女/混）"},{"en":"Game No.","cn":"比赛场次"},{"en":"Field No.","cn":"场地号"},{"en":"Teams","cn":"对阵"},{"en":"Phase","cn":"阶段"}],"by_date":{"2026-04-22":[["2026-04-22","09:30","Women / 女子","1","1","2-3","Round-robin final / 单循环决赛"],[null,"10:15","Women / 女子","2","1","1-4","Round-robin final / 单循环决赛"]],"2026-04-23":[["2026-04-23","16:15","Women / 女子","3","1","1-3","Round-robin final / 单循环决赛"],[null,"17:00","Women / 女子","4","1","4-2","Round-robin final / 单循环决赛"]],"2026-04-24":[["2026-04-24","16:15","Women / 女子","5","1","3-4","Round-robin final / 单循环决赛"],[null,"17:00","Women / 女子","6","1","1-2","Round-robin final / 单循环决赛"],[null,"18:00","Victory Ceremony / 颁奖仪式",null,null,null,null]],"2026-04-25":[["2026-04-25","16:30","Men / 男子","1","1","1-6","Round-robin final / 单循环决赛"],[null,"17:15","Men / 男子","2","1","2-5","Round-robin final / 单循环决赛"],[null,"18:00","Men / 男子","3","1","3-4","Round-robin final / 单循环决赛"]],"2026-04-26":[["2026-04-26","16:30","Men / 男子","4","1","5-3","Round-robin final / 单循环决赛"],[null,"17:15","Men / 男子","5","1","1-4","Round-robin final / 单循环决赛"],[null,"18:00","Men / 男子","6","1","6-2","Round-robin final / 单循环决赛"]],"2026-04-27":[["2026-04-27","16:30","Men / 男子","7","1","1-5","Round-robin final / 单循环决赛"],[null,"17:15","Men / 男子","8","1","2-3","Round-robin final / 单循环决赛"],[null,"18:00","Men / 男子","9","1","6-4","Round-robin final / 单循环决赛"]],"2026-04-28":[["2026-04-28","16:30","Men / 男子","10","1","4-2","Round-robin final / 单循环决赛"],[null,"17:15","Men / 男子","11","1","5-6","Round-robin final / 单循环决赛"],[null,"18:00","Men / 男子","12","1","1-3","Round-robin final / 单循环决赛"]],"2026-04-29":[["2026-04-29","15:30","Men / 男子","13","1","5-6","Round-robin final / 单循环决赛"],[null,"16:15","Men / 男子","14","1","3-4","Round-robin final / 单循环决赛"],[null,"17:00","Men / 男子","15","1","1-2","Round-robin final / 单循环决赛"],[null,"18:00","Victory Ceremony / 颁奖仪式",null,null,null,null]]},"dates":["2026-04-22","2026-04-23","2026-04-24","2026-04-25","2026-04-26","2026-04-27","2026-04-28","2026-04-29"]},"三人篮球 3x3 Basketball":{"cn":"三人篮球","en":"3x3 Basketball","color":"#f97316","headers":[{"en":"Date","cn":"日期"},{"en":"Time","cn":"时间"},{"en":"Category","cn":"组别（男/女/混）"},{"en":"Group","cn":"组别"},{"en":"Game No.","cn":"比赛场次"},{"en":"Court No.","cn":"场地号"},{"en":"Teams","cn":"对阵"},{"en":"Phase","cn":"阶段"}],"by_date":{"2026-04-25":[["2026-04-25","11:00","W","A","1","1","A1 vs A2","Round Robin / 小组赛"],[null,"11:25","W","A","2","1","A3 vs A4","Round Robin / 小组赛"],[null,"11:50","M","A","3","1","A1 vs A2","Round Robin / 小组赛"],[null,"12:15","M","A","4","1","A3 vs A4","Round Robin / 小组赛"],[null,"12:40","W","A","5","1","A1 vs A3","Round Robin / 小组赛"],[null,"13:05","W","A","6","1","A2 vs A4","Round Robin / 小组赛"],[null,"13:30","M","A","7","1","A1 vs A3","Round Robin / 小组赛"],[null,"13:55","M","A","8","1","A2 vs A4","Round Robin / 小组赛"],[null,"14:20","End of session / 比赛结束",null,null,null,null,null],[null,"16:20","W","C","9","1","C1 vs C2","Round Robin / 小组赛"],[null,"16:45","W","C","10","1","C3 vs C4","Round Robin / 小组赛"],[null,"17:10","M","C","11","1","C1 vs C2","Round Robin / 小组赛"],[null,"17:35","M","C","12","1","C3 vs C4","Round Robin / 小组赛"],[null,"18:00","W","C","13","1","C1 vs C3","Round Robin / 小组赛"],[null,"18:25","W","C","14","1","C2 vs C4","Round Robin / 小组赛"],[null,"18:50","M","C","15","1","C1 vs C3","Round Robin / 小组赛"],[null,"19:15","M","C","16","1","C2 vs C4","Round Robin / 小组赛"],[null,"19:40","End of session / 比赛结束",null,null,null,null,null]],"2026-04-26":[["2026-04-26","11:00","W","B","17","1","B1 vs B2","Round Robin / 小组赛"],[null,"11:25","W","B","18","1","B3 vs B4","Round Robin / 小组赛"],[null,"11:50","M","B","19","1","B1 vs B2","Round Robin / 小组赛"],[null,"12:15","M","B","20","1","B3 vs B4","Round Robin / 小组赛"],[null,"12:40","W","B","21","1","B1 vs B3","Round Robin / 小组赛"],[null,"13:05","W","B","22","1","B2 vs B4","Round Robin / 小组赛"],[null,"13:30","M","B","23","1","B1 vs B3","Round Robin / 小组赛"],[null,"13:55","M","B","24","1","B2 vs B4","Round Robin / 小组赛"],[null,"14:20","End of session / 比赛结束",null,null,null,null,null],[null,"16:20","W","D","25","1","D1 vs D2","Round Robin / 小组赛"],[null,"16:45","W","D","26","1","D3 vs D4","Round Robin / 小组赛"],[null,"17:10","M","D","27","1","D1 vs D2","Round Robin / 小组赛"],[null,"17:35","M","D","28","1","D3 vs D4","Round Robin / 小组赛"],[null,"18:00","W","D","29","1","D1 vs D3","Round Robin / 小组赛"],[null,"18:25","W","D","30","1","D2 vs D4","Round Robin / 小组赛"],[null,"18:50","M","D","31","1","D1 vs D3","Round Robin / 小组赛"],[null,"19:15","M","D","32","1","D2 vs D4","Round Robin / 小组赛"],[null,"19:40","End of session / 比赛结束",null,null,null,null,null]],"2026-04-27":[["2026-04-27","11:00","W","A","33","1","A1 vs A4","Round Robin / 小组赛"],[null,"11:25","W","A","34","1","A2 vs A3","Round Robin / 小组赛"],[null,"11:50","M","A","35","1","A1 vs A4","Round Robin / 小组赛"],[null,"12:15","M","A","36","1","A2 vs A3","Round Robin / 小组赛"],[null,"12:40","W","B","37","1","B1 vs B4","Round Robin / 小组赛"],[null,"13:05","W","B","38","1","B2 vs B3","Round Robin / 小组赛"],[null,"13:30","M","B","39","1","B1 vs B4","Round Robin / 小组赛"],[null,"13:55","M","B","40","1","B2 vs B3","Round Robin / 小组赛"],[null,"14:20","End of session / 比赛结束",null,null,null,null,null],[null,"16:20","W","C","41","1","C1 vs C4","Round Robin / 小组赛"],[null,"16:45","W","C","42","1","C2 vs C3","Round Robin / 小组赛"],[null,"17:10","M","C","43","1","C1 vs C4","Round Robin / 小组赛"],[null,"17:35","M","C","44","1","C2 vs C3","Round Robin / 小组赛"],[null,"18:00","W","D","45","1","D1 vs D4","Round Robin / 小组赛"],[null,"18:25","W","D","46","1","D2 vs D3","Round Robin / 小组赛"],[null,"18:50","M","D","47","1","D1 vs D4","Round Robin / 小组赛"],[null,"19:15","M","D","48","1","D2 vs D3","Round Robin / 小组赛"],[null,"19:40","End of session / 比赛结束",null,null,null,null,null]],"2026-04-28":[["2026-04-28","11:00","W","/","49","1","2nd of Pool C vs 3rd of Pool B / C组第二 vs B组第三","Qualifications to Quarterfinals / 四分之一晋级赛"],[null,"11:25","W","/","50","1","2nd of Pool B vs 3rd of Pool C / B组第二 vs C组第三","Qualifications to Quarterfinals / 四分之一晋级赛"],[null,"11:50","M","/","51","1","2nd of Pool C vs 3rd of Pool B / C组第二 vs B组第三","Qualifications to Quarterfinals / 四分之一晋级赛"],[null,"12:15","M","/","52","1","2nd of Pool B vs 3rd of Pool C / B组第二 vs C组第三","Qualifications to Quarterfinals / 四分之一晋级赛"],[null,"12:40","W","/","53","1","2nd of Pool A vs 3rd of Pool D / A组第二 vs D组第三","Qualifications to Quarterfinals / 四分之一晋级赛"],[null,"13:05","W","/","54","1","2nd of Pool D vs 3rd of Pool A / D组第二 vs A组第三","Qualifications to Quarterfinals / 四分之一晋级赛"],[null,"13:30","M","/","55","1","2nd of Pool A vs 3rd of Pool D / A组第二 vs D组第三","Qualifications to Quarterfinals / 四分之一晋级赛"],[null,"13:55","M","/","56","1","2nd of Pool D vs 3rd of Pool A / D组第二 vs A组第三","Qualifications to Quarterfinals / 四分之一晋级赛"],[null,"14:20","End of session / 比赛结束",null,null,null,null,null],[null,"16:20","W","/","57","1","1st of Pool A vs 49 Winner / A组第一 vs 49胜者","Quarterfinals / 四分之一决赛"],[null,"16:45","W","/","58","1","1st of Pool D vs 50 Winner / D组第一 vs 50胜者","Quarterfinals / 四分之一决赛"],[null,"17:10","M","/","59","1","1st of Pool A vs 51 Winner / A组第一 vs 51胜者","Quarterfinals / 四分之一决赛"],[null,"17:35","M","/","60","1","1st of Pool D vs 52 Winner / D组第一 vs 52胜者","Quarterfinals / 四分之一决赛"],[null,"18:00","W","/","61","1","1st of Pool C vs 53 Winner / C组第一 vs 53胜者","Quarterfinals / 四分之一决赛"],[null,"18:25","W","/","62","1","1st of Pool B vs 54 Winner / B组第一 vs 54胜者","Quarterfinals / 四分之一决赛"],[null,"18:50","M","/","63","1","1st of Pool C vs 55 Winner / C组第一 vs 55胜者","Quarterfinals / 四分之一决赛"],[null,"19:15","M","/","64","1","1st of Pool B vs 56 Winner / B组第一 vs 56胜者","Quarterfinals / 四分之一决赛"],[null,"19:40","End of session / 比赛结束",null,null,null,null,null]],"2026-04-29":[["2026-04-29","14:00","W","/","65","1","57 Winner vs 58 Winner / 57胜者 vs 58胜者","Semifinals / 半决赛"],[null,"14:25","W","/","66","1","61 Winner vs 62 Winner / 61胜者 vs 62胜者","Semifinals / 半决赛"],[null,"14:50","M","/","67","1","59 Winner vs 60 Winner / 59胜者 vs 60胜者","Semifinals / 半决赛"],[null,"15:15","M","/","68","1","63 Winner vs 64 Winner / 63胜者 vs 64胜者","Semifinals / 半决赛"],[null,"15:40","End of session / 比赛结束",null,null,null,null,null],[null,"18:00","W","/","69","1","65 Loser vs 67 Loser / 65负者 vs 67负者","Bronze Medal Games / 铜牌赛"],[null,"18:30","M","/","70","1","66 Loser vs 68 Loser / 66负者 vs 68负者","Bronze Medal Games / 铜牌赛"],[null,"19:00","W","/","71","1","65 Winner vs 67 Winner / 65胜者 vs 67胜者","Gold Medal Games / 金牌赛"],[null,"19:30","M","/","72","1","66 Winner vs 68 Winner / 66胜者 vs 68胜者","Gold Medal Games / 金牌赛"],[null,"20:00","W","Victory ceremony / 颁奖仪式",null,null,null,null],[null,"20:10","M","Victory ceremony / 颁奖仪式",null,null,null,null]]},"dates":["2026-04-25","2026-04-26","2026-04-27","2026-04-28","2026-04-29"]},"沙滩田径 Beach Athletics":{"cn":"沙滩田径","en":"Beach Athletics","color":"#a8ff3e","headers":[{"en":"Date","cn":"日期"},{"en":"Time","cn":"时间"},{"en":"Event","cn":"比赛项目"},{"en":"Phase","cn":"阶段"}],"by_date":{"2026-04-24":[["2026-04-24","9:00-9:28","Women's 60m / 女子60米","Preliminary / 预赛"],[null,"9:05-10:35","Men's High Jump / 男子跳高","Final / 决赛"],[null,"9:30-10:30","Women's Long Jump / 女子跳远","Final / 决赛"],[null,"9:35-10:03","Men's 60m / 男子60米","Preliminary / 预赛"],[null,"10:35-10:55","Victory ceremony / 颁奖仪式",null]],"2026-04-25":[["2026/4/25","9:00-9:15","Women's 60m / 女子60米","Second stage / 复赛"],[null,"9:20-10:50","Women's High Jump / 女子跳高","Final / 决赛"],[null,"9:25-9:40","Men's 60m / 男子60米","Second stage / 复赛"],[null,"9:40-10:40","Men's Long Jump / 男子跳远","Final / 决赛"],[null,"10:20-10:30","Women's 60m / 女子60米","Final / 决赛"],[null,"10:30-10:40","Men's 60m / 男子60米","Final / 决赛"],[null,"10:45-11:05","Victory ceremony / 颁奖仪式",null]],"2026-04-26":[["2026/4/26","9:00-9:50","Men's Shot Put / 男子铅球","Final / 决赛"],[null,"9:30-9:50","Women's 4*60 Relay / 女子4*60米","Final / 决赛"],[null,"10:20-11:05","Women's Shot Put / 女子铅球","Final / 决赛"],[null,"10:10-10:30","Men's 4*60 Relay / 男子4*60米","Final / 决赛"],[null,"10:35-10:50","Victory ceremony / 颁奖仪式",null]]},"dates":["2026-04-24","2026-04-25","2026-04-26"]},"龙舟 Dragon Boat":{"cn":"龙舟","en":"Dragon Boat","color":"#ffd700","headers":[{"en":"Date","cn":"日期"},{"en":"Time","cn":"时间"},{"en":"Event","cn":"比赛项目"},{"en":"Phase","cn":"阶段"}],"by_date":{"2026-04-24":[["2026-04-24","09:00","Openning Ceremony  / 开赛仪式",null],[null,"9:30-10:50","small boat (12) Men's 100m / 男子12人制100米","FinalPreliminary Round / Repechage / Small Final / Final / 预赛/复赛/小决赛/决赛"],[null,null,"small boat (12) Women's 100m / 女子12人制100米","FinalPreliminary Round / Repechage / Small Final / Final / 预赛/复赛/小决赛/决赛"],[null,"11:10-11:20","Victory Ceremony / 颁奖仪式",null]],"2026-04-25":[["2026-04-25","9:30-11:04","small boat (12) Men's 200m / 男子12人制200米","FinalPreliminary Round / Repechage / Small Final / Final / 预赛/复赛/小决赛/决赛"],[null,null,"small boat (12) Women's 200m / 女子12人制200米","FinalPreliminary Round / Repechage / Small Final / Final / 预赛/复赛/小决赛/决赛"],[null,"11:15-11:25","Victory Ceremony / 颁奖仪式",null]],"2026-04-26":[["2026-04-26","9:30-11:22","small boat (12) Men's 400m / 男子12人制400米","FinalPreliminary Round / Repechage / Small Final / Final / 预赛/复赛/小决赛/决赛"],[null,null,"small boat (12) Women's 400m / 女子12人制400米","FinalPreliminary Round / Repechage / Small Final / Final / 预赛/复赛/小决赛/决赛"],[null,"11:40-11:50","Victory Ceremony / 颁奖仪式",null]]},"dates":["2026-04-24","2026-04-25","2026-04-26"]},"沙滩足球 Beach Football":{"cn":"沙滩足球","en":"Beach Football","color":"#ef4444","headers":[{"en":"Date","cn":"日期"},{"en":"Time","cn":"时间"},{"en":"Category","cn":"组别（男/女/混）"},{"en":"Game No.","cn":"比赛场次"},{"en":"组别","cn":""},{"en":"Court No.","cn":"场地号"},{"en":"Teams","cn":"对阵"},{"en":"Phase","cn":"阶段"}],"by_date":{"2026-04-23":[["2026/4/23","16:00","男/M","1","B","V1","B1","B4"],[null,"18:30","男/M","2","B","V1","B2","B3"],[null,"21:00","M/男","3","A","V1","A2","A3"]],"2026-04-24":[["2026/4/24","16:00","M/男","4","B","V1","B2","B2"],[null,"18:30","M/男","5","B","V1","B3","B1"],[null,"21:00","M/男","6","A","V1","A3","A1"]],"2026-04-25":[["2026/4/25","16:00","M/男","7","B","V1","B1","B2"],[null,"18:30","M/男","8","B","V1","B3","B4"],[null,"21:00","M/男","9","A","V1","A1","B2"]],"2026-04-27":[["2026/4/27","18:00","M/男","10","SF2","V1","1A","2B"],[null,"20:30","M/男","11","SF1","V1","1B","2A"]],"2026-04-29":[["2026/4/29","18:00","M/男","12","3/4 Placing","V1","Loser SF1","Loser SF2"],[null,"20:30","M/男","13","F","V1","Winner SF1","Winner SF2"]]},"dates":["2026-04-23","2026-04-24","2026-04-25","2026-04-27","2026-04-29"]},"沙滩手球 Beach Handball":{"cn":"沙滩手球","en":"Beach Handball","color":"#ec4899","headers":[{"en":"Date","cn":"详细日期"},{"en":"Start Time","cn":"开始时间"},{"en":"FInish Time","cn":"结束时间"},{"en":"Event Name","cn":"详细内容"},{"en":"Venue","cn":"场馆"},{"en":"Gender","cn":"性别"},{"en":"Category","cn":"类别"}],"by_date":{"2026-04-20":[["2026-04-20","TBD / 待定","TBD / 待定","Training / 训练","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men&Women / 男子组及女子组","Training/Acclimatisation / 训练/场地适应"],[null,"TBD / 待定","TBD / 待定","Technical Meeting / 技术会议","TO HOTEL / 技术官员酒店",null,"Technical meeting/Draw / 技术会议/抽签"]],"2026-04-21":[["2026-04-21","10:00","12:40","Preliminary Round / 小组赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men / 男子组","Competition / 竞赛"],[null,"16:00","19:40","Preliminary Round / 小组赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men / 男子组","Competition / 竞赛"]],"2026-04-23":[["2026-04-23","10:00","12:40","Preliminary Round / 小组赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men&Women / 男子组及女子组","Competition / 竞赛"],[null,"16:00","19:40","Preliminary Round / 小组赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men&Women / 男子组及女子组","Competition / 竞赛"]],"2026-04-24":[["2026-04-24","10:00","12:40","Preliminary Round / 小组赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men&Women / 男子组及女子组","Competition / 竞赛"],[null,"16:00","19:40","Preliminary Round / 小组赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men&Women / 男子组及女子组","Competition / 竞赛"]],"2026-04-26":[["2026-04-26","10:00","12:40","Preliminary Round / 小组赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men&Women / 男子组及女子组","Competition / 竞赛"],[null,"16:00","19:40","Preliminary Round / 小组赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men&Women / 男子组及女子组","Competition / 竞赛"]],"2026-04-27":[["2026-04-27","10:00","12:40","Preliminary Round / 小组赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men&Women / 男子组及女子组","Competition / 竞赛"],[null,"16:00","17:40","Preliminary Round / 小组赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men&Women / 男子组及女子组","Competition / 竞赛"]],"2026-04-28":[["2026-04-28","16:00","17:40","SEMI-FINAL / 半决赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Women / 女子组","Competition / 竞赛"],[null,"18:00","19:40","SEMI-FINAL / 半决赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men / 男子组","Competition / 竞赛"]],"2026-04-30":[["2026-04-30","10:00","12:40","BRONZE&FINAL / 铜牌赛及决赛","Tianya Haijiao Venue Cluster / 天涯海角西门竞赛场馆","Men&Women / 男子组及女子组","Competition / 竞赛"],[null,"13:00","13:20","Award Ceremony / 颁奖仪式","Dong’an Lake Sports Park Athletics Field / 东安湖体育公园副体育场","Mixed / 混合","Award Ceremony / 颁奖仪式"]]},"dates":["2026-04-20","2026-04-21","2026-04-23","2026-04-24","2026-04-26","2026-04-27","2026-04-28","2026-04-30"]},"柔术 Jiu Jitsu":{"cn":"柔术","en":"Jiu Jitsu","color":"#8b5cf6","headers":[{"en":"Date","cn":"日期"},{"en":"Time","cn":"时间"},{"en":"Event","cn":"比赛项目"},{"en":"Phase","cn":"阶段"}],"by_date":{"2026-04-23":[["2026-04-23","9:00-13:30","Women's 52KG / 女子-52公斤","Qualification / Repechage / Semi-final / 预赛、复活赛半决赛"],[null,null,"Women's 63KG / 女子-63公斤",null],[null,null,"Men's62kg / 男子-62公斤",null],[null,"16:00-18:00","Women's 52KG / 女子-52公斤","3rd place / Final / Victory Ceremony / 铜牌赛、决赛，颁奖"],[null,null,"Women's 63KG / 女子-63公斤",null],[null,null,"Men's 62KG / 男子-62公斤",null]],"2026-04-24":[["2026-04-24","9:00-13:30","Women's 57KG / 女子-57公斤","预赛、半决赛复活赛Qualification / Repechage / Semi-final"],[null,null,"Men's 69KG / 男子-69公斤",null],[null,null,"Men's 77KG / 男子-77公斤",null],[null,"16:00-18:00","Men's 69KG / 男子-69公斤","3rd place / Final / Victory Ceremony / 铜牌赛、决赛、颁奖"],[null,null,"Women's 57KG / 女子-57公斤",null],[null,null,"Men's 77KG / 男子-77公斤",null]]},"dates":["2026-04-23","2026-04-24"]},"沙滩卡巴迪 Beach Kabaddi":{"cn":"沙滩卡巴迪","en":"Beach Kabaddi","color":"#06b6d4","headers":[{"en":"Date","cn":"日期"},{"en":"Time","cn":"时间"},{"en":"Category","cn":"组别（男/女）"},{"en":"Game No.","cn":"比赛场次"},{"en":"Court No.","cn":"场地号"},{"en":"Teams","cn":"对阵"}],"by_date":{"2026-04-23":[["2026-04-23","10:00","M","1","1","A vs B"],[null,"10:00","W","1","2","A vs B"],[null,"11:00","M","2","1","E vs F"],[null,"11:00","W","2","2","D vs E"],[null,"12:00","M","3","1","C vs D"],[null,"12:00","W","3","2","F vs G"],[null,"13:00","M","4","1","G vs H"]],"2026-04-24":[["2026-04-24","10:00","M","5","1","A vs C"],[null,"10:00","W","4","2","A vs C"],[null,"11:00","M","6","1","E vs G"],[null,"11:00","W","5","2","D vs F"],[null,"12:00","M","7","1","B vs D"],[null,"12:00","W","6","2","E vs G"],[null,"13:00","M","8","1","F vs H"]],"2026-04-25":[["2026-04-25","10:00","M","9","1","A vs D"],[null,"10:00","W","7","2","B vs C"],[null,"11:00","M","10","1","E vs H"],[null,"11:00","W","8","2","D vs G"],[null,"12:00","M","11","1","B vs C"],[null,"12:00","W","9","2","E vs F"],[null,"13:00","M","12","1","F vs G"]],"2026-04-26":[["2026-04-26","10:00","M","13","1","1A vs 2B"],[null,"10:00","W","10","2","1A vs 2B"],[null,"11:00","M","14","1","1B vs 2A"],[null,"11:00","W","11","2","1B vs 2A"]],"2026-04-27":[["2026-04-27","TBC","M","15","1","Winner 13 vs Winner 14"],[null,"TBC","W","12","2","Winner 10 vs Winner 11"],[null,"TBC","Victory Ceremony / 颁奖仪式",null,null,null]]},"dates":["2026-04-23","2026-04-24","2026-04-25","2026-04-26","2026-04-27"]},"帆船 Sailing":{"cn":"帆船","en":"Sailing","color":"#cbd5e1","headers":[{"en":"Date","cn":"日期"},{"en":"Time","cn":"时间"},{"en":"Event","cn":"比赛项目"},{"en":"Field","cn":"场地"},{"en":"Phase","cn":"阶段"}],"by_date":{"2026-04-19":[["2026-04-19","10:00-17:00","Equipment draw / 器材抽签",null,null],[null,"09:00-17:00","Athlete registration / 运动员报到",null,null],[null,"10:00-17:00","Equipment inspection and open training / 器材检查、公开训练",null,null]],"2026-04-20":[["2026-04-20","All Day / 全天","Technical Officials Group 2 Registration / 技术官员2报到",null,null],[null,"09:00-17:00","Equipment inspection and open training / 器材检查、公开训练",null,null]],"2026-04-21":[["2026-04-21","09:00","Team Manager and Technical Meeting / 领队、技术会议",null,null],[null,"09:00-17:00","Equipment inspection and open training / 器材检查、公开训练",null,null]],"2026-04-22":[["2026-04-22","14:00","Practice races / 练习赛",null,null],["2026/4/23-4/27","11:00-17:00","Optimist (Boys and Girls) and ILCA 4 (Boys and Girls) / 男、女子OP帆船级/男、女子爱尔卡4级","A",null],[null,"11:00-17:00","Formula Kite (Men and Women) and Foil Windsurfing (Boys and Girls) / 男、女子水翼风筝板级/男、女子水翼帆板级","B",null]],"2026-04-28":[["2026-04-28","11:00-14:00","Optimist (Boys and Girls) and ILCA 4 (Boys and Girls) / 男、女子OP帆船级/男、女子爱尔卡4级","A",null],[null,"11:00-14:00","Formula Kite (Men and Women) and Foil Windsurfing (Boys and Girls) / 男、女子水翼风筝板级/男、女子水翼帆板级","B",null],[null,"17:00","Victory ceremony / 颁奖仪式",null,null]]},"dates":["2026-04-19","2026-04-20","2026-04-21","2026-04-22","2026-04-28"]},"攀岩 Sport Climbing":{"cn":"攀岩","en":"Sport Climbing","color":"#84cc16","headers":[{"en":"Date","cn":"日期"},{"en":"Time","cn":"时间"},{"en":"Event","cn":"比赛项目"},{"en":"Phase","cn":"阶段"}],"by_date":{"2026-04-26":[["2026-04-26","15:00-17:00","Confirmation of Attendance / 报到确认","Preliminary / 预赛"],[null,"17:00","Warm-up area open / 热身区开放",null],[null,"17:30-20:30","Official training / 官方训练",null]],"2026-04-27":[["2026-04-27","08:00","Warm-up area open / 热身区开放",null],[null,"8:30-11:30","Official training / 官方训练",null],[null,"16:00-17:00","Technical meeting / 技术会议",null]],"2026-04-28":[["2026-04-28","07:00","Warm-up area open / 热身区开放",null],[null,"09:00-09:40","Women's Speed practice / 女子速度练习",null],[null,"09:40-10:30","Men's Speed practice / 男子速度练习",null],[null,"10:45-11:25","Women's Speed Qualification / 女子速度预赛","Preliminary / 预赛"],[null,"11:35-12:25","Men's Speed Qualification / 男子速度预赛","Preliminary / 预赛"],[null,"18:00","Warm-up area open / 热身区开放",null],[null,"20:00-21:00","Speed Final / 速度决赛","Final / 决赛"],[null,"21:10-21:20","Awarding ceremony / 颁奖仪式",null]],"2026-04-29":[["2026-04-29","08:00","Warm-up area open / 热身区开放",null],[null,"10:00-10:35","Women's Speed Relay Qualification / 女子速度接力预赛","Preliminary / 预赛"],[null,"10:45-11:30","Men's Speed Relay Qualification / 男子速度接力预赛","Preliminary / 预赛"],[null,"18:00","Warm-up area open / 热身区开放",null],[null,"20:00-21:00","Speed Relay Final / 速度接力决赛","Final / 决赛"],[null,"21:10-21:20","Victory ceremony / 颁奖仪式",null]],"2026-04-30":[["2026-04-30","AM","Reserve day / 备用日",null]]},"dates":["2026-04-26","2026-04-27","2026-04-28","2026-04-29","2026-04-30"]},"台克球 Teqball":{"cn":"台克球","en":"Teqball","color":"#fb923c","headers":[{"en":"Date","cn":"日期"},{"en":"Start","cn":"开始时间"},{"en":"End","cn":"结束时间"},{"en":"Table 1","cn":"球桌1"},{"en":"Table 2","cn":"球桌2"},{"en":"Table 3","cn":"球桌3"},{"en":"Table 4","cn":"球桌4"}],"by_date":{"2026-04-24":[["2026-04-24","15:29","16:00","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛"],[null,"16:00","16:30","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛"],[null,"16:30","16:59","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛"],[null,"17:30","18:00","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛"],[null,"18:00","18:29","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛"],[null,"18:29","19:00","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛","Men's Doubles / Qual / 男子双打小组赛"],[null,"19:30","19:59","Men's Doubles / QF / 男子双打四分之一决赛","Men's Doubles / QF / 男子双打四分之一决赛","Men's Doubles / QF / 男子双打四分之一决赛","Men's Doubles / QF / 男子双打四分之一决赛"],[null,"Start","End","Table 1球桌1",null,"Table 2球桌2",null],[null,"19:59","20:30","Men's Doubles / SF / 男子双打半决赛",null,"Men's Doubles / SF / 男子双打半决赛",null]],"2026-04-25":[["2026-04-25","15:29","16:00","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛"],[null,"16:00","16:30","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛"],[null,"16:30","16:59","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛"],[null,"17:30","18:00","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛"],[null,"18:00","18:29","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛"],[null,"18:29","19:00","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛","Women's Doubles / Qual / 女子双打小组赛"],[null,"19:00","19:30","Women's Doubles / Qual / 女子双打小组赛",null,null,null],[null,"Start","End","Table 1球桌1",null,"Table 2球桌2",null],[null,"19:59","20:30","Women's Doubles / SF / 女子双打半决赛",null,"Women's Doubles / SF / 女子双打半决死啊",null]],"2026-04-26":[["2026-04-26","15:29","16:00","Mixed Doubles / Qual / 混合双打小组赛","Mixed Doubles / Qual / 混合双打小组赛","Mixed Doubles / Qual / 混合双打小组赛","Mixed Doubles / Qual / 混合双打小组赛"],[null,"16:00","16:30","Mixed Doubles / Qual / 混合双打小组赛","Mixed Doubles / Qual / 混合双打小组赛","Mixed Doubles / Qual / 混合双打小组赛","Mixed Doubles / Qual / 混合双打小组赛"],[null,"16:30","16:59","Mixed Doubles / Qual / 混合双打小组赛","Mixed Doubles / Qual / 混合双打小组赛","Mixed Doubles / Qual / 混合双打小组赛","Mixed Doubles / Qual / 混合双打小组赛"],[null,"16:59","17:30","Mixed Doubles / Qual / 混合双打小组赛","Mixed Doubles / Qual / 混合双打小组赛","Mixed Doubles / Qual / 混合双打小组赛",null],[null,"18:00","18:29","Mixed Doubles / QF / 混合双打四分之一决赛","Mixed Doubles / QF / 混合双打四分之一决赛","Mixed Doubles / QF / 混合双打四分之一决赛","Mixed Doubles / QF / 混合双打四分之一决赛"],[null,"Start","End","Table 1球桌1",null,"Table 2球桌2",null],[null,"18:29","19:00","Mixed Doubles / SF / 混合双打半决赛",null,"Mixed Doubles / SF / 混合双打半决赛",null]],"2026-04-27":[["2026-04-27","Start","End","Table 1球桌1",null,null,null],[null,"17:30",null,"Women's Doubles / FINAL / 女双决赛",null,null,null],[null,"FOLLOWED BY",null,"Mixed Doubles / FINAL / 混双决赛",null,null,null],[null,"FOLLOWED BY",null,"Men's Doubles / FINAL / 男双决赛",null,null,null]]},"dates":["2026-04-24","2026-04-25","2026-04-26","2026-04-27"]},"游跑两项 Aquathlon":{"cn":"游跑两项","en":"Aquathlon","color":"#22d3ee","headers":[{"en":"Date","cn":"日期"},{"en":"Time","cn":"时间"},{"en":"Event","cn":"比赛项目"},{"en":"Phase","cn":"阶段"}],"by_date":{"2026-04-23":[["2026-04-23","8:00-8:45","Men's Individual / 男子个人比赛","Final / 决赛"],[null,"9:30-10:20","Women's Individual / 女子个人比赛","Final / 决赛"]],"2026-04-25":[["2026-04-25","8:00-9:15","4x Mixed Relay / 混合接力比赛","Final / 决赛"]]},"dates":["2026-04-23","2026-04-25"]},"沙滩排球 Beach Volleyball":{"cn":"沙滩排球","en":"Beach Volleyball","color":"#f43f5e","headers":[{"en":"DATE","cn":"日期"},{"en":"TIME","cn":"时间"},{"en":"COURT 1","cn":"场地1"},{"en":"COURT 2","cn":"场地2"},{"en":"COURT 3","cn":"场地3"},{"en":"COURT 4","cn":"场地4"},{"en":"PHASES","cn":"阶段"}],"by_date":{"2026-04-23":[["2026-04-23","09:00","W","W","W","W","Pool Play   / (M & W)"],[null,"09:50","W","W","W","W",null],[null,"10:40","M","M","M","M",null],[null,"11:30","M","M","M","M",null],[null,"14:00","M","M","M","M",null],[null,"14:50","M","M","M","M",null],[null,"15:40","W","W","W","W",null],[null,"16:30","W","W","W","W",null],[null,"18:00","M","M","W",null,null],[null,"19:00","M","W",null,null,null]],"2026-04-24":[["2026-04-24","09:00","W","W","W","W","Pool Play   / (M & W)"],[null,"09:50","W","W","W","W",null],[null,"10:40","M","M","M","M",null],[null,"11:30","M","M","M","M",null],[null,"14:00","M","M","M","M",null],[null,"14:50","M","M","M","M",null],[null,"15:40","W","W","W","W",null],[null,"16:30","W","W","W","W",null],[null,"18:00","M","M","W",null,null],[null,"19:00","M","W",null,null,null]],"2026-04-25":[["2026-04-25","09:00","W","W","W","W","Pool Play   / (M & W)"],[null,"09:50","W","W","W","W",null],[null,"10:40","M","M","M","M",null],[null,"11:30","M","M","M","M",null],[null,"14:00","M","M","M","M",null],[null,"14:50","M","M","M","M",null],[null,"15:40","W","W","W","W",null],[null,"16:30","W","W","W","W",null],[null,"18:00","M","M",null,null,null],[null,"19:00","M",null,null,null,null]],"2026-04-26":[["2026-04-26","09:00","M","M","M","M","Pool Play   / (M & W)"],[null,"09:50","M","M","M","M",null],[null,"10:40","M","M","M","M",null],[null,"11:30","M","M","M","M",null],[null,"14:00","M","M","M",null,null],[null,"14:50","W","W","W","W",null],[null,"15:40","M","M","M","M",null],[null,"16:30","M","M","M","M",null],[null,"18:00","M","M","M","M",null],[null,"19:00","M","M","M",null,null]],"2026-04-27":[["2026-04-27","09:00","W","W","W","W","Round of 32   / (M & W)"],[null,"10:00","W","W","W","W",null],[null,"11:00","W","W","W","W",null],[null,"14:00","W","W","W","W",null],[null,"15:00","M","M","M","M",null],[null,"16:00","M","M","M","M",null],[null,"18:00","M","M","M","M",null],[null,"19:00","M","M","M","M",null]],"2026-04-28":[["2026-04-28","09:00","W","W","W","W","Round of 16 & QF   / (M & W)"],[null,"10:00","W","W","W","W",null],[null,"11:00","M","M","M","M",null],[null,"12:00","M","M","M","M",null],[null,"15:00","W","W","W","W",null],[null,"16:00","M","M","M","M",null]],"2026-04-29":[["2026-04-29","09:00","M","M",null,null,"SF & Finals / (M & W)"],[null,"10:00","W","W",null,null,null],[null,"14:00","M-Bronze",null,null,null,null],[null,"15:00","W-Bronze",null,null,null,null],[null,"16:00","W-Gold",null,null,null,null],[null,"17:00","M - Gold",null,null,null,null],[null,"18:00","Awarding",null,null,null,null]]},"dates":["2026-04-23","2026-04-24","2026-04-25","2026-04-26","2026-04-27","2026-04-28","2026-04-29"]},"沙滩摔跤 Beach Wrestling":{"cn":"沙滩摔跤","en":"Beach Wrestling","color":"#d97706","headers":[{"en":"Date","cn":"日期"},{"en":"Time","cn":"时间"},{"en":"Event","cn":"比赛项目"},{"en":"Phase","cn":"阶段"}],"by_date":{"2026-04-28":[["2026-04-28","10:00-12:00","Men's 70KG  / 男子70公斤","Round 1 / 循环赛第一轮"],[null,null,"Men's 80KG  / 男子80公斤",null],[null,null,"Men's 90KG  / 男子90公斤",null],[null,null,"Men's+90KG  / 男子+90公斤",null],[null,null,"Women's 50KG  / 女子50公斤",null],[null,null,"Women's 60KG  / 女子60公斤",null],[null,null,"Women's 70KG  / 女子70公斤",null],[null,null,"Women's +70KG  / 女子+70公斤",null],[null,"15:00-17:00","Men's 70KG  / 男子70公斤","Round 2 / 循环赛第二轮"],[null,null,"Men's 80KG  / 男子80公斤",null],[null,null,"Men's 90KG  / 男子90公斤",null],[null,null,"Men's+90KG  / 男子+90公斤",null],[null,null,"Women's 50KG  / 女子50公斤",null],[null,null,"Women's 60KG  / 女子60公斤",null],[null,null,"Women's 70KG  / 女子70公斤",null],[null,null,"Women's +70KG  / 女子+70公斤",null]],"2026-04-29":[["2026-04-29","10:00-12:00","Men's 70KG  / 男子70公斤","Round 3 / 循环赛第三轮"],[null,null,"Men's 80KG  / 男子80公斤",null],[null,null,"Men's 90KG  / 男子90公斤",null],[null,null,"Men's+90KG  / 男子+90公斤",null],[null,null,"Women's 50KG  / 女子50公斤",null],[null,null,"Women's 60KG  / 女子60公斤",null],[null,null,"Women's 70KG  / 女子70公斤",null],[null,null,"Women's +70KG  / 女子+70公斤",null],[null,"15:00-18:00","Men's 70KG  / 男子70公斤","Knockout / 淘汰赛"],[null,null,"Men's 80KG  / 男子80公斤",null],[null,null,"Men's 90KG  / 男子90公斤",null],[null,null,"Men's+90KG  / 男子+90公斤",null],[null,null,"Women's 50KG  / 女子50公斤",null],[null,null,"Women's 60KG  / 女子60公斤",null],[null,null,"Women's 70KG  / 女子70公斤",null],[null,null,"Women's +70KG  / 女子+70公斤",null]]},"dates":["2026-04-28","2026-04-29"]}},"summary":{"公开水域游泳 Open Water Swimming":{"2026-04-25":1,"2026-04-26":1,"2026-04-27":1},"水球 Water Polo":{"2026-04-24":1,"2026-04-29":1},"三人篮球 3x3 Basketball":{"2026-04-29":2},"沙滩田径 Beach Athletics":{"2026-04-24":2,"2026-04-25":4,"2026-04-26":4},"龙舟 Dragon Boat":{"2026-04-24":2,"2026-04-25":2,"2026-04-26":2},"沙滩足球 Beach Football":{"2026-04-29":1},"沙滩手球 Beach Handball":{"2026-04-30":2},"柔术 Jiu Jitsu":{"2026-04-23":3,"2026-04-24":3},"沙滩卡巴迪 Beach Kabaddi":{"2026-04-27":2},"帆船 Sailing":{"2026-04-28":8},"攀岩 Sport Climbing":{"2026-04-28":2,"2026-04-29":2},"台克球 Teqball":{"2026-04-27":3},"游跑两项 Aquathlon":{"2026-04-23":2,"2026-04-25":1},"沙滩排球 Beach Volleyball":{"2026-04-29":2},"沙滩摔跤 Beach Wrestling":{"2026-04-29":8},"合计金牌数":{}},"all_dates":["2026-04-19","2026-04-20","2026-04-21","2026-04-22","2026-04-23","2026-04-24","2026-04-25","2026-04-26","2026-04-27","2026-04-28","2026-04-29","2026-04-30"]};
-
-const SPORTS = Object.entries(RAW.sports).map(([key, s]) => ({
-  key, ...s
-}));
+const DATA   = {"sports":[{"venue":"海月广场场馆","cn":"水球","en":"Water Polo","color":"#3b82f6","schedule":{"2026-04-22":"9:30 女子 2-3\n10:15 女子 1-4","2026-04-23":"16:15 女子 1-3\n17:00 女子 4-2","2026-04-24":"16:15 女子 3-4\n17:00 女子 1-2","2026-04-25":"16:30 男子 1-6\n17:15 男子 2-5\n18:00 男子 3-4","2026-04-26":"16:30 男子 5-3\n17:15 男子 1-4\n18:00 男子 6-2","2026-04-27":"16:30 男子 1-5\n17:15 男子 2-3\n18:00 男子 6-4","2026-04-28":"16:30 男子 4-2\n17:15 男子 5-6\n18:00 男子 1-3","2026-04-29":"15:30 男子 4-5\n16:15 男子 3-6\n17:00 男子 1-2"}},{"venue":"三亚体育中心场馆","cn":"三人篮球","en":"3x3 Basketball","color":"#f97316","schedule":{"2026-04-25":"11:00-14:20 男子&女子小组赛\n16:20-19:40 男子&女子小组赛","2026-04-26":"11:00-14:20 男子&女子小组赛\n16:20-19:40 男子&女子小组赛","2026-04-27":"11:00-14:20 男子&女子小组赛\n16:20-19:40 男子&女子小组赛","2026-04-28":"11:00-14:20 男子&女子四分之一决赛附加赛\n16:20-19:40 男子&女子四分之一决赛","2026-04-29":"14:00-15:40 男子&女子半决赛\n18:00-19:30 男子&女子铜牌赛及金牌赛"}},{"venue":"凤凰岛场馆","cn":"沙滩田径","en":"Beach Athletics","color":"#a8ff3e","schedule":{"2026-04-24":"9:00女子60米预赛\n9:05男子跳高决赛\n9:30男子60米预赛\n9:50女子跳远决赛\n10:35女子60米决赛\n10:45男子60米决赛","2026-04-25":"9:00男子跳远决赛\n9:10女子4×60米预赛\n9:30女子铅球决赛\n10:00男子4×60米预赛","2026-04-26":"9:00女子跳高决赛\n9:20女子4×60米决赛\n9:50男子铅球决赛\n10:10男子4×60米决赛"}},{"venue":"三亚河场馆","cn":"龙舟","en":"Dragon Boat","color":"#ffd700","schedule":{"2026-04-24":"09:30 女子组（12人龙舟）预赛第1组\n09:35 女子组（12人龙舟）预赛第2组\n09:40 男子组（12人龙舟）预赛第1组\n09:45 男子组（12人龙舟）预赛第2组\n10:05 女子组（12人龙舟）半决赛1组\n10:15 男子组（12人龙舟）半决赛1组\n10:35 女子组（12人龙舟）小决赛1组\n10:40 女子组（12人龙舟）决  赛1组\n10:45 男子组（12人龙舟）小决赛1组\n10:50 男子组（12人龙舟）决  赛1组","2026-04-25":"09:30 女子组（12人龙舟）预赛第1组\n09:36 女子组（12人龙舟）预赛第2组\n09:42 男子组（12人龙舟）预赛第1组\n09:48 男子组（12人龙舟）预赛第2组\n10:11 女子组（12人龙舟）半决赛1组\n10:23 男子组（12人龙舟）半决赛1组\n10:46 女子组（12人龙舟）小决赛1组\n10:52 女子组（12人龙舟）决  赛1组\n10:58 男子组（12人龙舟）小决赛1组\n11:04 男子组（12人龙舟）决  赛1组","2026-04-26":"09:30 女子组（12人龙舟）预赛第1组\n09:38 女子组（12人龙舟）预赛第2组\n09:46 男子组（12人龙舟）预赛第1组\n09:54 男子组（12人龙舟）预赛第2组\n10:18 女子组（12人龙舟）半决赛1组\n10:34 男子组（12人龙舟）半决赛1组\n10:58 女子组（12人龙舟）小决赛1组\n11:06 女子组（12人龙舟）决  赛1组\n11:14 男子组（12人龙舟）小决赛1组\n11:22 男子组（12人龙舟）决  赛1组"}},{"venue":"御海路场馆","cn":"沙滩足球","en":"Beach Football","color":"#ef4444","schedule":{"2026-04-23":"16:00 男子B组 B1-B4\n18:30 男子B组 B2-B3\n21:00 男子A组 A2-A3","2026-04-24":"16:00 男子B组 B4-B2\n18:30 男子B组 B3-B1\n21:00 男子A组 A3-A1","2026-04-25":"16:00 男子B组 B1-B2\n18:30 男子B组 B3-B4\n21:00 男子A组 A3-A4","2026-04-27":"18:00 男子半决赛 1A-2B\n20:30 男子半决赛 1B-2A","2026-04-29":"18:00 男子3、4名决赛 \n20:30 男子1、2名决赛"}},{"venue":"天涯海角场馆","cn":"沙滩手球","en":"Beach Handball","color":"#ec4899","schedule":{"2026-04-21":"10:00-12:40 男子小组赛\n16:00-19:40 男子小组赛","2026-04-23":"10:00-12:40 男子&女子小组赛\n16:00-19:40 男子&女子小组赛","2026-04-24":"10:00-12:40 男子&女子小组赛\n16:00-19:40 男子&女子小组赛","2026-04-26":"10:00-12:40 男子&女子小组赛\n16:00-19:40 男子&女子小组赛","2026-04-27":"10:00-12:40 男子&女子小组赛\n16:00-19:40 男子&女子小组赛","2026-04-28":"16:00-17:40 女子半决赛\n18:00-19:40 男子半决赛","2026-04-30":"10:00-12:40 男子&女子铜牌赛及决赛"}},{"venue":"御海路场馆","cn":"柔术","en":"Jiu Jitsu","color":"#8b5cf6","schedule":{"2026-04-23":"9:00-14:00 女子52公斤、男子62公斤、女子63公斤预赛，淘汰赛\n14:30-16:30女子52公斤、男子62公斤、女子63公斤小组赛铜牌赛、决赛，颁奖","2026-04-24":"9:00-14:00 女子57公斤，男子69公斤，男子77公斤预赛，淘汰赛\n14:30-16:30女子57公斤，男子69公斤，男子77公斤小组赛铜牌赛、决赛，颁奖"}},{"venue":"海月广场场馆","cn":"沙滩卡巴迪","en":"Beach Kabaddi","color":"#06b6d4","schedule":{"2026-04-23":"09:00 男子A-B&女子A-B      \n10:00 男子E-F&女子D-E      \n16:00 男子C-D&女子F-G      \n17:00 男子G-H","2026-04-24":"09:00 男子A-C&女子A-C      \n10:00 男子E-G&女子D-F      \n16:00 男子B-D&女子E-G      \n17:00 男子F-H","2026-04-25":"09:00 男子A-D&女子B-C        \n10:00 男子E-H&女子D-G      \n16:00 男子B-C&女子E-F       \n17:00 男子F-G","2026-04-26":"09:00 男子1A-2B&女子1A-2B         \n10:00 男子1B-2A&女子1B-2A","2026-04-27":"TBC 男子决赛                \n TBC 女子决赛"}},{"venue":"天涯海角场馆","cn":"攀岩","en":"Sport Climbing","color":"#84cc16","schedule":{"2026-04-28":"10:45-11:25 女子速度预赛\n11:35-12:25 男子速度预赛\n20:00-21:00 速度决赛","2026-04-29":"10:00-10:35 女子速度接力预赛\n10:45-11:30 男子速度接力预赛\n20:00-21:00 速度接力决赛"}},{"venue":"御海路场馆","cn":"台克球","en":"Teqball","color":"#fb923c","schedule":{"2026-04-24":"15:30男双小组赛\n16:00男双小组赛\n16:30男双小组赛\n17:30男双小组赛\n18:00男双小组赛\n18:30男双小组赛\n19:30男双四分之一决赛\n20:00男双半决赛","2026-04-25":"15:30女双小组赛\n16:00女双小组赛\n16:30女双小组赛\n17:30女双小组赛\n18:00女双小组赛\n18:30女双小组赛\n19:00女双半决赛\n20:00女双半决赛","2026-04-26":"15:30混双小组赛\n16:00混双小组赛\n16:30混双小组赛\n17:00混双小组赛\n18:00混双四分之一决赛\n18:30混双半决赛","2026-04-27":"17:30女双决赛\nfollowed by 混双决赛\nfollowed by 男双决赛"}},{"venue":"摄影基地场馆","cn":"游跑两项","en":"Aquathlon","color":"#22d3ee","schedule":{"2026-04-23":"8:00男子个人赛\n9:30女子个人赛","2026-04-25":"8:00混合接力赛"}},{"venue":"天涯海角场馆","cn":"沙滩排球","en":"Beach Volleyball","color":"#f43f5e","schedule":{"2026-04-23":"9:00 男子小组赛\n9:50 男子小组赛\n10:40 男子小组赛\n11:30 男子小组赛\n14:00 女子小组赛\n15:00 女子小组赛\n16:00 女子小组赛\n17:00 女子小组赛","2026-04-24":"9:00 男子小组赛\n9:50 男子小组赛\n10:40 男子小组赛\n11:30 男子小组赛\n14:00 女子小组赛\n15:00 女子小组赛\n16:00 女子小组赛\n17:00 女子小组赛","2026-04-25":"9:00 男子小组赛\n9:50 男子小组赛\n10:40 男子小组赛\n11:30 男子小组赛\n14:00 女子小组赛\n15:00 女子小组赛\n16:00 女子小组赛\n17:00 女子小组赛","2026-04-26":"9:00 男子24强淘汰赛\n9:50 男子24强淘汰赛\n10:40 女子16强淘汰赛\n11:30 女子16强淘汰赛\n14:00 男子16强淘汰赛\n15:00 男子16强淘汰赛\n16:00 男子16强淘汰赛\n17:00 男子16强淘汰赛","2026-04-27":"9:00 女子四分之一决赛\n9:50 女子四分之一决赛\n10:40 女子四分之一决赛\n11:30 女子四分之一决赛\n14:00 男子四分之一决赛\n15:00 男子四分之一决赛\n16:00 男子四分之一决赛\n17:00 男子四分之一决赛","2026-04-28":"9:00 女子组半决赛\n10:00 女子组半决赛\n15:00 男子组半决赛\n16:00 男子组半决赛","2026-04-29":"9:00 女子组铜牌赛\n10:00 女子组决赛\n15:00 男子组铜牌赛\n16:00 男子组决赛\n17:00 颁奖仪式"}},{"venue":"御海路场馆","cn":"沙滩摔跤","en":"Beach Wrestling","color":"#d97706","schedule":{"2026-04-28":"10:00-12:00循环赛第一轮\n15:00-17:00循环赛第二轮","2026-04-29":"10:00-12:00循环赛第三轮\n15:00-18:00淘汰赛、决赛、颁奖仪式"}},{"venue":"海虹广场场馆","cn":"帆船","en":"Sailing","color":"#94a3b8","schedule":{"2026-04-21":"09:00-17:00公开训练","2026-04-22":"14：00练习赛","2026-04-23":"11：00-17：00男女OP帆船级，男女ILCA4帆船级，A场地。男女水翼风筝板级别，男女水翼帆板级别，B场地。","2026-04-24":"11：00-17：00男女OP帆船级，男女ILCA4帆船级，A场地。男女水翼风筝板级别，男女水翼帆板级别，B场地。","2026-04-25":"11：00-17：00男女OP帆船级，男女ILCA4帆船级，A场地。男女水翼风筝板级别，男女水翼帆板级别，B场地。","2026-04-26":"11：00-17：00男女OP帆船级，男女ILCA4帆船级，A场地。男女水翼风筝板级别，男女水翼帆板级别，B场地。","2026-04-27":"11：00-17：00男女OP帆船级，男女ILCA4帆船级，A场地。男女水翼风筝板级别，男女水翼帆板级别，B场地。","2026-04-28":"11：00-14：00男女OP帆船级，男女ILCA4帆船级，A场地。男女水翼风筝板级别，男女水翼帆板级别，B场地。"}},{"venue":"海月广场场馆","cn":"公开水域游泳","en":"Open Water Swimming","color":"#00e5ff","schedule":{"2026-04-25":"9:00-11:30 女子5公里","2026-04-26":"9:00-11:30 男子5公里","2026-04-27":"9:00-11:30 男女混合4*1.5公里接力"}}],"date_cols":[["2026-04-21","DAY -1","4/21","MON","周一"],["2026-04-22","DAY 0","4/22","TUE","周二"],["2026-04-23","DAY 1","4/23","WED","周三"],["2026-04-24","DAY 2","4/24","THU","周四"],["2026-04-25","DAY 3","4/25","FRI","周五"],["2026-04-26","DAY 4","4/26","SAT","周六"],["2026-04-27","DAY 5","4/27","SUN","周日"],["2026-04-28","DAY 6","4/28","MON","周一"],["2026-04-29","DAY 7","4/29","TUE","周二"],["2026-04-30","DAY 8","4/30","WED","周三"]]};
+const SPORTS = DATA.sports;
 
 const ALL_DATES = [
-  '2026-04-19','2026-04-20','2026-04-21','2026-04-22',
-  '2026-04-23','2026-04-24','2026-04-25','2026-04-26',
-  '2026-04-27','2026-04-28','2026-04-29','2026-04-30'
+  '2026-04-21','2026-04-22','2026-04-23','2026-04-24','2026-04-25',
+  '2026-04-26','2026-04-27','2026-04-28','2026-04-29','2026-04-30'
 ];
-
-const DATE_META = {
-  '2026-04-19': {num:'4/19', week:'SAT', cn:'周六'},
-  '2026-04-20': {num:'4/20', week:'SUN', cn:'周日'},
-  '2026-04-21': {num:'4/21', week:'MON', cn:'周一'},
-  '2026-04-22': {num:'4/22', week:'TUE', cn:'周二'},
-  '2026-04-23': {num:'4/23', week:'WED', cn:'周三'},
-  '2026-04-24': {num:'4/24', week:'THU', cn:'周四'},
-  '2026-04-25': {num:'4/25', week:'FRI', cn:'周五'},
-  '2026-04-26': {num:'4/26', week:'SAT', cn:'周六'},
-  '2026-04-27': {num:'4/27', week:'SUN', cn:'周日'},
-  '2026-04-28': {num:'4/28', week:'MON', cn:'周一'},
-  '2026-04-29': {num:'4/29', week:'TUE', cn:'周二'},
-  '2026-04-30': {num:'4/30', week:'WED', cn:'周三'},
+const DM = {
+  '2026-04-21':{tag:'DAY -1',num:'4/21',week:'MON',cn:'周一'},
+  '2026-04-22':{tag:'DAY 0', num:'4/22',week:'TUE',cn:'周二'},
+  '2026-04-23':{tag:'DAY 1', num:'4/23',week:'WED',cn:'周三'},
+  '2026-04-24':{tag:'DAY 2', num:'4/24',week:'THU',cn:'周四'},
+  '2026-04-25':{tag:'DAY 3', num:'4/25',week:'FRI',cn:'周五'},
+  '2026-04-26':{tag:'DAY 4', num:'4/26',week:'SAT',cn:'周六'},
+  '2026-04-27':{tag:'DAY 5', num:'4/27',week:'SUN',cn:'周日'},
+  '2026-04-28':{tag:'DAY 6', num:'4/28',week:'MON',cn:'周一'},
+  '2026-04-29':{tag:'DAY 7', num:'4/29',week:'TUE',cn:'周二'},
+  '2026-04-30':{tag:'DAY 8', num:'4/30',week:'WED',cn:'周三'},
 };
 
-const SUMMARY = RAW.summary || {};
+/* ─── helpers ─── */
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function phaseClass(t){
+  if(!t) return 'p-other';
+  const l=t.toLowerCase();
+  if((l.includes('决赛')||l.includes('final'))&&!l.includes('半')&&!l.includes('semi')&&!l.includes('四分')&&!l.includes('quarter')&&!l.includes('3')&&!l.includes('铜')&&!l.includes('bronze')) return 'p-final';
+  if(l.includes('半决')||l.includes('semi')) return 'p-semi';
+  if(l.includes('预赛')||l.includes('qual')||l.includes('prelim')) return 'p-qual';
+  if(l.includes('小组')||l.includes('group')||l.includes('pool')||l.includes('循环')||l.includes('round robin')||l.includes('round-robin')) return 'p-group';
+  return 'p-other';
+}
+function pillLabel(cls){ return {p_final:'决赛',p_semi:'半决赛',p_qual:'预赛',p_group:'小组赛',p_other:'赛事'}[cls.replace('-','_')]||'赛事'; }
 
-function getPhaseClass(phaseStr) {
-  if (!phaseStr) return 'phase-default';
-  const p = phaseStr.toLowerCase();
-  if (p.includes('final') && !p.includes('semi') && !p.includes('quarter') && !p.includes('3') && !p.includes('4')) return 'phase-final';
-  if (p.includes('semi') || p.includes('sf')) return 'phase-semi';
-  if (p.includes('3') && (p.includes('place') || p.includes('bronze') || p.includes('名'))) return 'phase-bronze';
-  if (p.includes('qual') || p.includes('prelim') || p.includes('预赛') || p.includes('resource') || p.includes('repechage')) return 'phase-qual';
-  if (p.includes('group') || p.includes('round robin') || p.includes('pool') || p.includes('小组') || p.includes('pool play') || p.includes('round-robin')) return 'phase-group';
-  if (p.includes('final')) return 'phase-final';
-  return 'phase-default';
+/* ─── Build sidebar ─── */
+function buildSidebar(){
+  document.getElementById('sbNav').innerHTML = SPORTS.map((s,i)=>
+    `<div class="nav-item" id="ni${i}" onclick="showSport(${i})">
+      <div class="ni-dot" style="background:${s.color}"></div>
+      <div><div class="ni-cn">${s.cn}</div><div class="ni-en">${s.en}</div></div>
+    </div>`).join('');
 }
 
-function getEventSummary(sport, date) {
-  const rows = sport.by_date[date];
-  if (!rows || !rows.length) return null;
-  // Find phase column index
-  const headers = sport.headers;
-  let phaseIdx = headers.findIndex(h => {
-    const en = (h.en || '').toLowerCase();
-    return en.includes('phase') || en.includes('阶段');
+/* ─── Build overview table ─── */
+function buildTable(){
+  let h=`<tr><th class="th-sport">项目</th>`;
+  ALL_DATES.forEach(d=>{
+    const m=DM[d];
+    h+=`<th class="th-date"><div class="td-tag">${m.tag}</div><div class="td-num">${m.num}</div><div class="td-cn">${m.week} ${m.cn}</div></th>`;
   });
-  // Find event/time column
-  let eventIdx = headers.findIndex(h => {
-    const en = (h.en || '').toLowerCase();
-    return en.includes('event') || en.includes('比赛项目') || en.includes('teams');
-  });
-  let timeIdx = headers.findIndex(h => {
-    const en = (h.en || '').toLowerCase();
-    return en.includes('time') || en.includes('start') || en.includes('时间');
-  });
-  if (timeIdx < 0) timeIdx = 1;
+  document.getElementById('ovTHead').innerHTML=h+'</tr>';
 
-  // Build pills
-  const pills = [];
-  const phasesSeen = new Set();
-  rows.forEach(row => {
-    let phase = phaseIdx >= 0 ? (row[phaseIdx] || '') : '';
-    // Clean up phase
-    phase = phase.split(' / ')[0].trim();
-    const cls = getPhaseClass(phase);
-    const key = cls + '|' + phase;
-    if (!phasesSeen.has(key)) {
-      phasesSeen.add(key);
-      pills.push({phase, cls});
-    }
-  });
-  const time0 = rows[0][timeIdx];
-  return {pills, time0, rowCount: rows.length};
-}
-
-// Build desktop table
-function buildDesktop() {
-  const thead = document.getElementById('tableHead');
-  const tbody = document.getElementById('tableBody');
-
-  // Header row
-  let headHtml = '<tr><th class="sport-label-header"></th>';
-  ALL_DATES.forEach(d => {
-    const m = DATE_META[d];
-    headHtml += `<th><div class="date-header">
-      <div class="day-num">${m.num}</div>
-      <div class="day-week">${m.week}</div>
-      <div class="day-cn">${m.cn}</div>
-    </div></th>`;
-  });
-  headHtml += '</tr>';
-  thead.innerHTML = headHtml;
-
-  // Sport rows
-  let bodyHtml = '';
-  SPORTS.forEach(sport => {
-    const color = sport.color;
-    bodyHtml += `<tr class="sport-row">`;
-    bodyHtml += `<td class="sport-label" style="border-right-color:${color}" onclick="openModal('${sport.key}')">
-      <div class="sport-label-inner">
-        <div class="sport-name-cn">${sport.cn}</div>
-        <div class="sport-name-en">${sport.en}</div>
-        <div class="sport-dot" style="background:${color}"></div>
-      </div>
+  let b='';
+  SPORTS.forEach((s,si)=>{
+    b+=`<tr class="sport-row"><td class="td-sport" style="border-right-color:${s.color}" onclick="showSport(${si})">
+      <div class="sp-cn2">${s.cn}</div><div class="sp-en2">${s.en}</div>
+      <div class="sp-dot2" style="background:${s.color}"></div>
     </td>`;
-
-    ALL_DATES.forEach(d => {
-      const hasSport = sport.by_date[d] && sport.by_date[d].length > 0;
-      // Check medal from summary
-      const summaryKey = sport.key;
-      const medals = SUMMARY[summaryKey] && SUMMARY[summaryKey][d];
-
-      if (hasSport) {
-        const info = getEventSummary(sport, d);
-        bodyHtml += `<td onclick="openModalDay('${sport.key}','${d}')" style="cursor:pointer">
-          <div class="cell-inner">`;
-        if (medals) {
-          bodyHtml += `<div style="display:flex;align-items:center;gap:4px;margin-bottom:2px">
-            <div class="medal-dot"></div>
-            <span style="font-size:10px;color:var(--gold);font-family:'Space Mono',monospace">${medals} GOLD</span>
-          </div>`;
-        }
-        if (info) {
-          // Deduplicate pills
-          const shown = new Set();
-          info.pills.forEach(p => {
-            const pkey = p.cls + p.phase.slice(0,20);
-            if (!shown.has(pkey)) {
-              shown.add(pkey);
-              const label = p.phase ? p.phase.split('/')[0].trim().slice(0,22) : '—';
-              bodyHtml += `<div class="event-pill ${p.cls}">${label}</div>`;
-            }
-          });
-          if (info.time0) {
-            bodyHtml += `<div style="font-size:10px;color:var(--text-muted);font-family:'Space Mono',monospace;margin-top:2px">${info.time0}</div>`;
-          }
-        }
-        bodyHtml += `</div></td>`;
+    ALL_DATES.forEach(d=>{
+      const v=s.schedule[d];
+      if(v){
+        const lines=v.split('\n').map(l=>l.trim()).filter(Boolean);
+        const seen=new Set(); let pills='';
+        lines.forEach(l=>{ const c=phaseClass(l); if(!seen.has(c)){seen.add(c);pills+=`<span class="pill ${c}">${pillLabel(c)}</span>`;} });
+        const tm=v.match(/\d{1,2}[:：]\d{2}/);
+        b+=`<td class="td-cell" onclick="showSportDay(${si},'${d}')"><div class="ci">${pills}${tm?`<div class="ci-time">${tm[0]} 起</div>`:''}</div></td>`;
       } else {
-        bodyHtml += `<td><div class="cell-empty"><div class="cell-dash"></div></div></td>`;
+        b+=`<td><div class="td-empty"><div class="td-dash"></div></div></td>`;
       }
     });
-    bodyHtml += '</tr>';
+    b+='</tr>';
   });
-  tbody.innerHTML = bodyHtml;
+  document.getElementById('ovTBody').innerHTML=b;
 }
 
-// Build mobile
-function buildMobile() {
-  const container = document.getElementById('mobileView') || document.getElementById('mobile-view');
-  let html = '';
-  ALL_DATES.forEach(d => {
-    const m = DATE_META[d];
-    const sportsOnDay = SPORTS.filter(s => s.by_date[d] && s.by_date[d].length > 0);
-    if (!sportsOnDay.length) return;
+/* ─── Build sport cards ─── */
+function buildCards(){
+  document.getElementById('cardsGrid').innerHTML=SPORTS.map((s,i)=>{
+    const pips=ALL_DATES.filter(d=>s.schedule[d]).map(d=>`<span class="sc-pip">${DM[d].num}</span>`).join('');
+    return `<div class="sport-card" style="border-left-color:${s.color}" onclick="showSport(${i})">
+      <span class="sc-arr">↗</span>
+      <div class="sc-cn2" style="color:${s.color}">${s.cn}</div>
+      <div class="sc-en2">${s.en}</div>
+      <div class="sc-pips">${pips}</div>
+    </div>`;
+  }).join('');
+}
 
-    html += `<div class="mobile-day">
-      <div class="mobile-day-header">
-        <div class="mobile-day-num">${m.num}</div>
-        <div class="mobile-day-info">
-          <div class="mobile-day-week">${m.week} · ${m.cn}</div>
-          <div style="font-size:10px;color:var(--text-muted)">${sportsOnDay.length} sports</div>
-        </div>
-      </div>`;
+/* ─── Navigation state ─── */
+let curSport=-1;
 
-    sportsOnDay.forEach(sport => {
-      const color = sport.color;
-      const medals = SUMMARY[sport.key] && SUMMARY[sport.key][d];
-      html += `<div class="mobile-sport-card" style="border-left-color:${color}" onclick="openModalDay('${sport.key}','${d}')">
-        <div class="mobile-card-header">
-          <div>
-            <div class="mobile-sport-name" style="color:${color}">${sport.cn}</div>
-            <div class="mobile-sport-sub">${sport.en}</div>
-          </div>
-          ${medals ? `<div style="font-size:10px;color:var(--gold);font-family:'Space Mono',monospace">🥇 ${medals}</div>` : '<div class="tap-hint">→</div>'}
-        </div>
-      </div>`;
-    });
-    html += '</div>';
+function setNavActive(id){
+  document.querySelectorAll('.nav-item,.nav-overview').forEach(el=>el.classList.remove('active'));
+  const el=document.getElementById(id);
+  if(el) el.classList.add('active');
+}
+
+function showOverview(){
+  document.getElementById('pg-overview').style.display='block';
+  document.getElementById('pg-sport').style.display='none';
+  document.getElementById('tbTitle').textContent='竞赛总日程';
+  document.getElementById('tbSub').textContent='2026 · 三亚';
+  setNavActive('nav-ov');
+  curSport=-1;
+  if(window.innerWidth<=768) closeSidebar();
+}
+
+function showSport(si, day){
+  curSport=si;
+  const s=SPORTS[si];
+
+  document.getElementById('pg-overview').style.display='none';
+  document.getElementById('pg-sport').style.display='block';
+
+  // header
+  document.getElementById('spBar').style.background=s.color;
+  document.getElementById('spCN').textContent=s.cn;
+  document.getElementById('spCN').style.color=s.color;
+  document.getElementById('spEN').textContent=s.en;
+  document.getElementById('spVenue').textContent='📍 '+s.venue;
+  document.getElementById('tbTitle').textContent=s.cn;
+  document.getElementById('tbSub').textContent=s.en;
+
+  setNavActive('ni'+si);
+
+  // day chips
+  const strip=document.getElementById('dayStrip');
+  let sc=`<div class="ds-label">赛程日历</div>`;
+  ALL_DATES.forEach(d=>{
+    const m=DM[d]; const hasGame=!!s.schedule[d];
+    const bg=hasGame?`background:${s.color}20;border-color:${s.color}60;`:'';
+    const col=hasGame?`color:${s.color}`:'';
+    sc+=`<div class="day-chip ${hasGame?'on':'off'}" id="chip${si}_${d.replace(/-/g,'_')}" 
+      style="${bg}" ${hasGame?`onclick="selDay(${si},'${d}')"`:''}>
+      <div class="dc-num" style="${col}">${m.num}</div>
+      <div class="dc-cn">${m.cn}</div>
+      <div class="dc-dot"></div>
+    </div>`;
   });
-  if (container) container.innerHTML = html;
+  strip.innerHTML=sc;
+
+  // day sections
+  const body=document.getElementById('spBody');
+  body.innerHTML=ALL_DATES.filter(d=>s.schedule[d]).map(d=>{
+    const m=DM[d];
+    return `<div class="day-sec" id="sec${si}_${d.replace(/-/g,'_')}">
+      <div class="ds-hdr">
+        <div class="ds-date" style="color:${s.color}">${m.num}</div>
+        <div class="ds-info">${m.tag} · ${m.week} ${m.cn}</div>
+      </div>
+      <div class="ds-block" style="border-left-color:${s.color}">${esc(s.schedule[d])}</div>
+    </div>`;
+  }).join('');
+
+  // select first or requested day
+  const activeDays=ALL_DATES.filter(d=>s.schedule[d]);
+  selDay(si, day||activeDays[0]);
+
+  document.getElementById('content').scrollTop=0;
+  if(window.innerWidth<=768) closeSidebar();
 }
 
-// Modal logic
-let currentSportKey = null;
-let currentDay = null;
+function showSportDay(si,day){ showSport(si,day); }
 
-function openModal(key, day) {
-  currentSportKey = key;
-  const sport = RAW.sports[key];
-  if (!sport) return;
-
-  document.getElementById('modalTitleCN').textContent = sport.cn;
-  document.getElementById('modalTitleEN').textContent = sport.en;
-  document.getElementById('modalTitleCN').style.color = sport.color;
-
-  // Build day tabs
-  const tabs = document.getElementById('modalDayTabs');
-  tabs.style.setProperty('--sport-color', sport.color);
-  const dates = sport.dates;
-  let tabsHtml = '';
-  dates.forEach(d => {
-    const m = DATE_META[d] || {num: d, week: '', cn: ''};
-    const hasMedal = SUMMARY[key] && SUMMARY[key][d];
-    tabsHtml += `<button class="day-tab" onclick="selectDay('${key}','${d}')" id="tab-${key}-${d.replace(/-/g,'_')}" style="--sport-color:${sport.color}">
-      ${m.num} ${m.cn}${hasMedal ? ' 🥇' : ''}
-    </button>`;
-  });
-  tabs.innerHTML = tabsHtml;
-
-  const targetDay = day || dates[0];
-  currentDay = targetDay;
-  renderModalContent(key, targetDay);
-
-  // Activate tab
-  setTimeout(() => {
-    const tabId = `tab-${key}-${targetDay.replace(/-/g,'_')}`;
-    const el = document.getElementById(tabId);
-    if (el) el.classList.add('active');
-  }, 10);
-
-  document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+function selDay(si,day){
+  document.querySelectorAll('[id^="chip'+si+'_"]').forEach(c=>c.classList.remove('sel'));
+  document.querySelectorAll('[id^="sec'+si+'_"]').forEach(s=>s.classList.remove('vis'));
+  const c=document.getElementById('chip'+si+'_'+day.replace(/-/g,'_'));
+  const s=document.getElementById('sec'+si+'_'+day.replace(/-/g,'_'));
+  if(c) c.classList.add('sel');
+  if(s) s.classList.add('vis');
 }
 
-function openModalDay(key, day) {
-  openModal(key, day);
-}
-
-function selectDay(key, day) {
-  currentDay = day;
-  // Update tabs
-  document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
-  const tabId = `tab-${key}-${day.replace(/-/g,'_')}`;
-  const el = document.getElementById(tabId);
-  if (el) el.classList.add('active');
-  renderModalContent(key, day);
-}
-
-function renderModalContent(key, day) {
-  const sport = RAW.sports[key];
-  const rows = sport.by_date[day] || [];
-  const headers = sport.headers;
-  const content = document.getElementById('modalContent');
-
-  if (!rows.length) {
-    content.innerHTML = '<div class="no-data">暂无数据 No data available</div>';
-    return;
+/* ─── Sidebar toggle ─── */
+function toggleSidebar(){
+  if(window.innerWidth<=768){
+    const sb=document.getElementById('sidebar');
+    const ov=document.getElementById('overlay');
+    if(sb.classList.contains('mob-open')){ closeSidebar(); }
+    else { sb.classList.add('mob-open'); ov.classList.add('vis'); }
+  } else {
+    document.body.classList.toggle('sidebar-hidden');
   }
-
-  // Find key column indices
-  let timeIdx = headers.findIndex(h => {
-    const en = (h.en || '').toLowerCase();
-    return en.includes('time') || en.includes('start');
-  });
-  if (timeIdx < 0) timeIdx = 1;
-
-  let phaseIdx = headers.findIndex(h => {
-    const en = (h.en || '').toLowerCase();
-    return en.includes('phase') || en.includes('category');
-  });
-
-  // Decide which headers to show (skip date col, skip mostly-empty cols)
-  const showCols = [];
-  for (let i = 0; i < headers.length; i++) {
-    const h = headers[i];
-    const label = h.en || h.cn || '';
-    if (!label) continue;
-    if (i === 0) continue; // date col
-    // check if col has any data
-    const hasData = rows.some(r => r[i] != null && r[i] !== '');
-    if (!hasData) continue;
-    showCols.push(i);
-  }
-
-  let html = '<table class="detail-table"><thead><tr>';
-  showCols.forEach(i => {
-    const h = headers[i];
-    const label = h.en || '';
-    const sublabel = h.cn || '';
-    html += `<th><div>${label}</div>${sublabel ? `<div style="opacity:0.6">${sublabel}</div>` : ''}</th>`;
-  });
-  html += '</tr></thead><tbody>';
-
-  rows.forEach(row => {
-    html += '<tr>';
-    showCols.forEach(i => {
-      let val = row[i] || '—';
-      // Style time column
-      if (i === timeIdx) {
-        html += `<td style="font-family:'Space Mono',monospace;font-size:12px;color:var(--accent);white-space:nowrap">${val}</td>`;
-      } else if (i === phaseIdx) {
-        const cls = getPhaseClass(val);
-        const label = val.split('/')[0].trim();
-        html += `<td><span class="phase-badge ${cls}">${label}</span></td>`;
-      } else {
-        html += `<td>${val}</td>`;
-      }
-    });
-    html += '</tr>';
-  });
-  html += '</tbody></table>';
-  content.innerHTML = html;
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('mob-open');
+  document.getElementById('overlay').classList.remove('vis');
 }
 
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
+/* ─── Print ─── */
+function doPrint(){ showOverview(); setTimeout(()=>window.print(),200); }
 
-function closeModalOnBg(e) {
-  if (e.target === document.getElementById('modalOverlay')) closeModal();
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
+/* ─── Keyboard ─── */
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeSidebar();
 });
 
-function setView(v) {
-  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  // Both views shown on desktop, this could toggle different layouts
-  // For now just visual indicator
-}
-
-// Init
-buildDesktop();
-buildMobile();
+/* ─── Init ─── */
+buildSidebar();
+buildTable();
+buildCards();
 </script>
 </body>
 </html>
